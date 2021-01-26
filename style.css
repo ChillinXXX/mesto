@@ -1,0 +1,77 @@
+.page {
+  max-width: 1280px;
+  margin: auto;
+  background-color: #000000;
+  font-family: 'Inter', Arial, sans-serif;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; 
+}
+
+.header {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 45px 0 40px;
+  border-bottom: 1px solid #545454;
+}
+
+.logo {
+  display: block;
+  width: 142px;
+  height: 33px;
+  background: url(./images/logo.svg) center no-repeat;
+}
+
+.profile {
+  max-width: 880px;
+  margin: auto;
+  padding: 40px 0 50px;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.profile__avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+}
+
+.info {
+  margin: 0 auto 0 30px;
+  max-width: 336px;
+  align-content: flex-start;
+  display: flex;
+  flex-flow: row wrap;
+  column-gap: 16px;
+  row-gap: 18px;
+}
+
+.info__user-name {
+  margin: 0;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 42px;
+  line-height: 1.14;
+}
+
+.info__button-info {
+  margin: 0;
+  width: 24px;
+  height: 24px;
+}
+
+.info__user-description {
+  margin: 0;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 1.22;
+}
+
+.profile__button-add {
+  margin: 0;
+  width: 150px;
+  height: 50px;
+}
