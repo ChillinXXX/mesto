@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,7 @@
   <link rel="shortcut icon" href="./images/icon_practicum.png">
   <title>Mesto</title>
 </head>
+
 <body class="page">
   <header class="header">
     <a href="#" class="logo"></a>
@@ -25,42 +27,42 @@
     <section class="cards-section">
       <ul class="cards">
         <li class="cards__item">
-          <img  class="cards__images"  src="./images/place-karelia.jpg" alt="Карелия">
+          <img class="cards__images" src="./images/place-karelia.jpg" alt="Карелия">
           <div class="cards__caption">
             <h2 class="cards__title">Карелия</h2>
             <button class="cards__button-like"></button>
           </div>
         </li>
         <li class="cards__item">
-          <img  class="cards__images"  src="./images/place-kolsky.jpg" alt="Кольский">
+          <img class="cards__images" src="./images/place-kolsky.jpg" alt="Кольский">
           <div class="cards__caption">
             <h2 class="cards__title">Кольский</h2>
             <button class="cards__button-like"></button>
           </div>
         </li>
         <li class="cards__item">
-          <img  class="cards__images"  src="./images/place-kosa.jpg" alt="Коса">
+          <img class="cards__images" src="./images/place-kosa.jpg" alt="Коса">
           <div class="cards__caption">
             <h2 class="cards__title">Коса</h2>
             <button class="cards__button-like"></button>
           </div>
         </li>
         <li class="cards__item">
-          <img  class="cards__images"  src="./images/place-winter-baikal.jpg" alt="Зимний Байкал">
+          <img class="cards__images" src="./images/place-winter-baikal.jpg" alt="Зимний Байкал">
           <div class="cards__caption">
             <h2 class="cards__title">Зимний Байкал</h2>
             <button class="cards__button-like"></button>
           </div>
         </li>
         <li class="cards__item">
-          <img  class="cards__images"  src="./images/photo-grid-elbrus.jpg" alt="Эльбрус">
+          <img class="cards__images" src="./images/place-altai.jpg" alt="Алтай">
           <div class="cards__caption">
-            <h2 class="cards__title">Эльбрус</h2>
+            <h2 class="cards__title">Алтай</h2>
             <button class="cards__button-like"></button>
           </div>
         </li>
         <li class="cards__item">
-          <img  class="cards__images"  src="./images/photo-grid-ergaki.jpg" alt="Ергаки">
+          <img class="cards__images" src="./images/photo-grid-ergaki.jpg" alt="Ергаки">
           <div class="cards__caption">
             <h2 class="cards__title">Ергаки</h2>
             <button class="cards__button-like"></button>
@@ -70,5 +72,20 @@
     </section>
   </main>
   <footer class="footer">&copy; 2020 Mesto Russia</footer>
+  <div class="popup popup_opened">
+    <form action="" class="popup__container">
+      <h2 class="popup__title">Редактировать профиль</h2>
+      <fieldset class="popup__form">
+        <input type="text" class="popup__profile popup__profile_el_name" id="name" name="name" placeholder="Имя" required>
+        <input type="text" class="popup__profile popup__profile_el_about" id="about" name="about" placeholder="О себе" required>
+      </fieldset>
+      <fieldset class="popup__form">
+        <input type="submit" class="popup__button" value="Сохранить">
+        <input type="reset" class="popup__button" value=" ">
+      </fieldset>
+      
+    </form>
+  </div>
 </body>
+
 </html>
