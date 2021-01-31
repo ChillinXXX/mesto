@@ -18,8 +18,10 @@
     <section class="profile">
       <img src="./images/image-avatar.jpg" alt="Аватар" class="profile__avatar">
       <div class="info">
-        <h1 class="info__user-name">Жак-Ив Кусто</h1>
-        <button class="info__button-info"></button>
+        <div class="info__conteiner">
+          <h1 class="info__user-name">Жак-Ив Кусто</h1>
+          <button class="info__button-info"></button>
+        </div>
         <p class="info__user-description">Исследователь океана</p>
       </div>
       <button class="profile__button-add"></button>
@@ -29,42 +31,42 @@
         <li class="cards__item">
           <img class="cards__images" src="./images/place-karelia.jpg" alt="Карелия">
           <div class="cards__caption">
-            <h2 class="cards__title">Карелия</h2>
+            <h3 class="cards__title">Карелия</h3>
             <button class="cards__button-like"></button>
           </div>
         </li>
         <li class="cards__item">
           <img class="cards__images" src="./images/place-kolsky.jpg" alt="Кольский">
           <div class="cards__caption">
-            <h2 class="cards__title">Кольский</h2>
+            <h3 class="cards__title">Кольский</h3>
             <button class="cards__button-like"></button>
           </div>
         </li>
         <li class="cards__item">
           <img class="cards__images" src="./images/place-kosa.jpg" alt="Коса">
           <div class="cards__caption">
-            <h2 class="cards__title">Коса</h2>
+            <h3 class="cards__title">Коса</h3>
             <button class="cards__button-like"></button>
           </div>
         </li>
         <li class="cards__item">
           <img class="cards__images" src="./images/place-winter-baikal.jpg" alt="Зимний Байкал">
           <div class="cards__caption">
-            <h2 class="cards__title">Зимний Байкал</h2>
+            <h3 class="cards__title">Зимний Байкал</h3>
             <button class="cards__button-like"></button>
           </div>
         </li>
         <li class="cards__item">
           <img class="cards__images" src="./images/place-altai.jpg" alt="Алтай">
           <div class="cards__caption">
-            <h2 class="cards__title">Алтай</h2>
+            <h3 class="cards__title">Алтай</h3>
             <button class="cards__button-like"></button>
           </div>
         </li>
         <li class="cards__item">
           <img class="cards__images" src="./images/photo-grid-ergaki.jpg" alt="Ергаки">
           <div class="cards__caption">
-            <h2 class="cards__title">Ергаки</h2>
+            <h3 class="cards__title">Ергаки</h3>
             <button class="cards__button-like"></button>
           </div>
         </li>
@@ -72,20 +74,21 @@
     </section>
   </main>
   <footer class="footer">&copy; 2020 Mesto Russia</footer>
-  <div class="popup popup_opened">
+  <div class="popup">
     <form action="" class="popup__container">
       <h2 class="popup__title">Редактировать профиль</h2>
       <fieldset class="popup__form">
-        <input type="text" class="popup__profile popup__profile_el_name" id="name" name="name" placeholder="Имя" required>
-        <input type="text" class="popup__profile popup__profile_el_about" id="about" name="about" placeholder="О себе" required>
+        <input type="text" class="popup__profile popup__profile_el_name" id="name" name="name" placeholder="Имя" required minlength="1" maxlength="50">
+        <input type="text" class="popup__profile popup__profile_el_about" id="about" name="about" placeholder="О себе" required minlength="1" maxlength="50">
       </fieldset>
       <fieldset class="popup__form">
-        <input type="submit" class="popup__button" value="Сохранить">
-        <input type="reset" class="popup__button" value=" ">
+        <button class="popup__button popup__button_el_save">Сохранить</button>
+        <button class="popup__button popup__button_el_close"></button>
       </fieldset>
       
     </form>
   </div>
+  <script src="./scripts.js"></script>
 </body>
 
 </html>

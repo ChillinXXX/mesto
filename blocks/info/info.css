@@ -1,0 +1,21 @@
+.info {
+  max-width: 350px;
+  margin: 0 auto 0 30px;
+  display: flex;
+  flex-direction: column;
+}
+
+@media screen and (max-width: 690px) {
+  .info {
+    margin: 26px auto 36px;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .info {
+    max-width: 282px;
+    justify-content: center;
+    column-gap: 14px;
+    row-gap: 10px;
+  }
+}

@@ -1,0 +1,22 @@
+.info__button-info {
+  margin: 15px 0 0 18px;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  background: url(../../../images/Edit-Button.svg) center no-repeat;
+  border: 1px solid white;
+}
+
+.info__button-info:hover {
+  opacity: .6;
+  transition: .3s;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 425px) {
+  .info__button-info {
+    margin: 10px 0 0;
+    width: 18px;
+    height: 18px;
+  }
+}

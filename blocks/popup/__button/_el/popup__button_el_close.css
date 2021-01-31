@@ -1,0 +1,17 @@
+.popup__button_el_close {
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  background: url(../../../../images/Close-Icon.svg) center no-repeat;
+}
+
+@media screen and (max-width: 525px) {
+  .popup__button_el_close {
+    width: 26px;
+    height: 26px;
+    right: 0;
+    background: url(../../../../images/Close-Icon-small.svg) center no-repeat;
+  }
+}
