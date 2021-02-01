@@ -15,7 +15,7 @@
 
 @media screen and (max-width: 425px) {
   .info__button-info {
-    margin: 10px 0 0;
+    margin: 10px 0 0 10px;
     width: 18px;
     height: 18px;
   }

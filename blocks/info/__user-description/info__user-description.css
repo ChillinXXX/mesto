@@ -1,5 +1,6 @@
 .info__user-description {
   margin: 0;
+  max-width: 350px;
   font-style: normal;
   font-weight: normal;
   font-size: 18px;
@@ -11,6 +12,7 @@
 
 @media screen and (max-width: 425px) {
   .info__user-description {
+    max-width: 250px;
     font-size: 14px;
   }
 }

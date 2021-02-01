@@ -1,21 +1,21 @@
 .info {
-  max-width: 350px;
+  max-width: 500px;
   margin: 0 auto 0 30px;
   display: flex;
   flex-direction: column;
+  row-gap: 10px;
 }
 
 @media screen and (max-width: 690px) {
   .info {
-    margin: 26px auto 36px;
+    margin: 27px auto 30px;
   }
 }
 
 @media screen and (max-width: 425px) {
   .info {
     max-width: 282px;
-    justify-content: center;
-    column-gap: 14px;
+    align-items: center;
     row-gap: 10px;
   }
 }
