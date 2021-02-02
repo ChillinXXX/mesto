@@ -12,7 +12,9 @@
 
 <body class="page">
   <header class="header">
-    <a href="#" class="logo" target="_blank"></a>
+    <a href="#" class="logo" target="_blank">
+      <img src="./images/logo.svg" alt="Логотип проекта Место" class="logo__image">
+    </a>
   </header>
   <main class="content">
     <section class="profile">
@@ -73,22 +75,21 @@
       </ul>
     </section>
   </main>
-  <footer class="footer">&copy; 2020 Mesto Russia</footer>
+  <footer class="footer">
+    <p class="footer__copyright">&copy; 2020 Mesto Russia</p>
+  </footer>
   <div class="popup">
-    <form class="popup__container">
+    <form class="popup__container" name="info">
       <h2 class="popup__title">Редактировать профиль</h2>
       <fieldset class="popup__form">
         <input type="text" class="popup__profile popup__profile_el_name" id="name" name="name" placeholder="Имя" required minlength="1" maxlength="50">
         <input type="text" class="popup__profile popup__profile_el_about" id="about" name="about" placeholder="О себе" required minlength="1" maxlength="50">
       </fieldset>
-      <fieldset class="popup__form">
-        <button class="popup__button popup__button_el_save">Сохранить</button>
-        <button class="popup__button popup__button_el_close"></button>
-      </fieldset>
-      
+      <button class="popup__button popup__button_el_save" type="submit">Сохранить</button>
+      <button class="popup__button popup__button_el_close" type="reset"></button>
     </form>
   </div>
-  <script src="./scripts.js"></script>
+  <script src="./sripts/script.js"></script>
 </body>
 
 </html>
