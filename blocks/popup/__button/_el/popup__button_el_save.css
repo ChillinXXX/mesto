@@ -10,6 +10,11 @@
   line-height: 1.22;
 }
 
+.popup__button_el_save:hover {
+  opacity: .8;
+  cursor: pointer;
+}
+
 @media screen and (max-width: 525px) {
   .popup__button_el_save {
     height: 46px;
