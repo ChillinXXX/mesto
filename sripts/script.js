@@ -7,32 +7,82 @@ let aboutInput = popupInfo.querySelector('.popup__profile_el_about');
 let popupCloseButton = popupInfo.querySelector('.popup__button_el_close');
 let userName = document.querySelector('.info__user-name');
 let userDescription = document.querySelector('.info__user-description');
+////////
+let buttomAddCard = document.querySelector('.profile__button-add'); // Записали объект в "кнопка добавить карточку" в переменную
+let popupAddCard = document.querySelector('.popup_el_addCard');
+let closeAddCard = popupAddCard.querySelector('.popup__button_el_close');
+////////
+const initialCards = [
+  {
+    name: 'Архыз',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+  },
+  {
+    name: 'Челябинская область',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+  },
+  {
+    name: 'Иваново',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+  },
+  {
+    name: 'Камчатка',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+  },
+  {
+    name: 'Холмогорский район',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+  },
+  {
+    name: 'Байкал',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+  }
+];
 
-/*Функция закрытия Popup*/
-function closePopup() {
-  popup.classList.remove('popup_opened');
-}
+////Заливка карточек из массива////
 
-/*Функция открытия Popup и передачи в Input текстовых данных из DOM*/
-function openPopup() {
+initialCards.forEach((item) => {
+  const cardItemsList = document.querySelector('.cards');
+  const cardTemplate = document.querySelector('#card').content;
+  const cardItem = cardTemplate.querySelector('.cards__item').cloneNode(true);
+  cardItem.querySelector('.cards__images').src = item.link;
+  cardItem.querySelector('.cards__images').alt = item.name;
+  cardItem.querySelector('.cards__title').textContent = item.name;
+  cardItemsList.append(cardItem);
+});
+
+
+/*Обработчик события: "Открыть Popup" по клику кнопки Info*/
+popupOpenButton.addEventListener('click', function() {
   nameInput.value = userName.textContent;
   aboutInput.value = userDescription.textContent;
   popup.classList.add('popup_opened');
-}
+});
 
-/*Функция Изменения Полей в форме инфо*/
-function formSubmitHandler(evt) {
+
+
+/*Обработчик события: "Закрыть Popup INFO" по клику кнопки Close*/
+popupCloseButton.addEventListener('click', function() {
+  popup.classList.remove('popup_opened');
+});
+
+/*Обработчик события: Изменение полей в форме инфо и "Закрыть Popup" по клику ?кнопки? Сохранить*/
+popupInfo.addEventListener('submit', function(evt) {
   evt.preventDefault();
   userName.textContent = nameInput.value;
   userDescription.textContent = aboutInput.value;
-  closePopup()
-}
+  popup.classList.remove('popup_opened');
+});
 
-/*Обработчик события: "Открыть Popup" по клику кнопки Info*/
-popupOpenButton.addEventListener('click', openPopup);
+//////////////
+buttomAddCard.addEventListener('click', function() {
+  popupAddCard.classList.add('popup_opened');
+  popupCloseButton = popupAddCard.querySelector('.popup__button_el_close');
+});
 
-/*Обработчик события: "Закрыть Popup" по клику кнопки Close*/
-popupCloseButton.addEventListener('click', closePopup);
+closeAddCard.addEventListener('click', function() {
+  popupAddCard.classList.remove('popup_opened');
+});
 
-/*Обработчик события: Изменение полей в форме инфо и "Закрыть Popup" по клику ?кнопки? Сохранить*/
-popupInfo.addEventListener('submit', formSubmitHandler); 
+
+/////////////
