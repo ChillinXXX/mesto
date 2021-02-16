@@ -1,4 +1,4 @@
-///Объявление переменных для попапа редактирования профиля///
+//Объявление переменных для редактирования профиля
 let popup = document.querySelector('.popup');
 let popupOpenButton = document.querySelector('.info__button-info');
 let popupInfo = popup.querySelector('.popup__container');
@@ -8,20 +8,18 @@ let popupCloseButton = popupInfo.querySelector('.popup__button_el_close');
 let userName = document.querySelector('.info__user-name');
 let userDescription = document.querySelector('.info__user-description');
 
-
-///Объявления переменных для попапа добавления карточек///
+//Объявления переменных для попапа добавления карточек и обработчиков событий
 let buttomAddCard = document.querySelector('.profile__button-add');
 let popupAddCard = document.querySelector('.popup_el_addCard');
 let closeAddCard = popupAddCard.querySelector('.popup__button_el_close');
 let nameCard = popupAddCard.querySelector('.popup__add-card_el_name-card');
 let linkCard = popupAddCard.querySelector('.popup__add-card_el_link-card');
 
-//Открытие ПОПАПА с картинкой//
+//Открытие для попапа просмотра изображения
 let openPopupPreview = document.querySelector('.popup_el_preview');
 let buttomClosePreview = openPopupPreview.querySelector('.popup__button_el_close');
 
-///Объявляем массив объектов с атрибутами name&link///
-
+//Объявление массива объектов с атрибутами name и link
 const initialCards = [
   {
     name: 'Архыз',
@@ -49,8 +47,7 @@ const initialCards = [
   }
 ];
 
-///Заливка/удаление карточек из массива///
-
+//Добавлене карточек проходом массива, с созданием обработчиков событий
 initialCards.forEach((item) => {
   const cardItemsList = document.querySelector('.cards');
   const cardTemplate = document.querySelector('#card').content;
@@ -74,13 +71,12 @@ initialCards.forEach((item) => {
     const previewImageTarget = evt.target;
     openPopupPreview.querySelector('.popup__image').src = previewImageTarget.src;
     openPopupPreview.querySelector('.popup__figcaption').textContent = previewImageTarget.alt;
-    openPopupPreview.classList.add('popup_opened');
+    openPopupPreview.classList.add('popup_opened-bigblack');
   });
   cardItemsList.append(cardItem);
 });
 
-////Добавление/удаление карточки по кнопке////
-
+//Добавлене карточек из формы с созданием обработчиков событий
 popupAddCard.addEventListener('submit', function(evt) {
   evt.preventDefault();
   const cardItemsList = document.querySelector('.cards');
@@ -105,30 +101,25 @@ popupAddCard.addEventListener('submit', function(evt) {
     const previewImageTarget = evt.target;
     openPopupPreview.querySelector('.popup__image').src = previewImageTarget.src;
     openPopupPreview.querySelector('.popup__figcaption').textContent = previewImageTarget.alt;
-    openPopupPreview.classList.add('popup_opened');
+    openPopupPreview.classList.add('popup_opened-bigblack');
   });
   cardItemsList.prepend(cardItem);
   popupAddCard.classList.remove('popup_opened');
 });
 
-
-
-
-/*Обработчик события: "Открыть Popup" по клику кнопки Info*/
+//Обработчик события: открыть модальне окно Popup Info
 popupOpenButton.addEventListener('click', function() {
   nameInput.value = userName.textContent;
   aboutInput.value = userDescription.textContent;
   popup.classList.add('popup_opened');
 });
 
-
-
-/*Обработчик события: "Закрыть Popup INFO" по клику кнопки Close*/
+//Обработчик события: закрыть попап модального окна Инфо
 popupCloseButton.addEventListener('click', function() {
   popup.classList.remove('popup_opened');
 });
 
-/*Обработчик события: Изменение полей в форме инфо и "Закрыть Popup" по клику ?кнопки? Сохранить*/
+//Обработчик события: Изменение полей в форме инфо и "Закрыть Popup" по клику "Сохранить"
 popupInfo.addEventListener('submit', function(evt) {
   evt.preventDefault();
   userName.textContent = nameInput.value;
@@ -136,7 +127,7 @@ popupInfo.addEventListener('submit', function(evt) {
   popup.classList.remove('popup_opened');
 });
 
-////// Обработчик события открытия попапа добавления карточек////////
+// Обработчик события: открытия попапа модального окна добавления карточек
 buttomAddCard.addEventListener('click', function() {
   popupAddCard.classList.add('popup_opened');
   nameCard.value = '';
@@ -144,12 +135,12 @@ buttomAddCard.addEventListener('click', function() {
   popupCloseButton = popupAddCard.querySelector('.popup__button_el_close');
 });
 
-////// Обработчик события закрытия попапа добавления карточек////////
+// Обработчик события: закрытие попапа модального окна добавления карточек 
 closeAddCard.addEventListener('click', function() {
   popupAddCard.classList.remove('popup_opened');
 });
 
-////// Обработчик события закрытия попапа добавления карточек////////
+// Обработчик события: закрытия попапа модально окна просмотра изображения
 buttomClosePreview.addEventListener('click', function() {
-  openPopupPreview.classList.remove('popup_opened');
+  openPopupPreview.classList.remove('popup_opened-bigblack');
 });
