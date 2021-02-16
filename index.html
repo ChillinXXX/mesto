@@ -96,9 +96,16 @@
         <input type="text" class="popup__profile popup__add-card_el_name-card" id="name" name="name-card" placeholder="Название" required minlength="1" maxlength="50">
         <input type="text" class="popup__profile popup__add-card_el_link-card" id="about" name="link-card" placeholder="Ссылка на картинку" required minlength="1" maxlength="300">
       </fieldset>
-      <button class="popup__button popup__button_el_save" type="submit">Сохранить</button>
+      <button class="popup__button popup__button_el_save" type="submit">Создать</button>
       <button class="popup__button popup__button_el_close" type="reset"></button>
     </form>
+  </div>
+  <div class="popup popup_el_preview">
+    <figure class="popup__figure">
+      <button class="popup__button popup__button_el_close"></button>
+      <img src="#" alt="#" class="popup__image">
+      <figcaption></figcaption>
+    </figure>
   </div>
   <template id="card">
     <li class="cards__item">
@@ -107,6 +114,7 @@
         <h3 class="cards__title"></h3>
         <button class="cards__button-like" type="button"></button>
       </div>
+      <button class="cards__button-delete" type="button"></button>
     </li>
   </template>
   <script src="./sripts/script.js"></script>

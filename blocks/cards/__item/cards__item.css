@@ -1,5 +1,10 @@
 .cards__item {
+  position: relative;
   border-radius: 10px;
   overflow: hidden;
   background-color: white;
+}
+
+.cards__item:hover {
+  cursor: pointer;
 }

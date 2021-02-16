@@ -1,4 +1,4 @@
-/*Объявление переменных и присвоение им значений*/
+///Объявление переменных для попапа редактирования профиля///
 let popup = document.querySelector('.popup');
 let popupOpenButton = document.querySelector('.info__button-info');
 let popupInfo = popup.querySelector('.popup__container');
@@ -7,13 +7,18 @@ let aboutInput = popupInfo.querySelector('.popup__profile_el_about');
 let popupCloseButton = popupInfo.querySelector('.popup__button_el_close');
 let userName = document.querySelector('.info__user-name');
 let userDescription = document.querySelector('.info__user-description');
-////////
-let buttomAddCard = document.querySelector('.profile__button-add'); // Записали объект в "кнопка добавить карточку" в переменную
+
+
+///Объявления переменных для попапа добавления карточек///
+let buttomAddCard = document.querySelector('.profile__button-add');
 let popupAddCard = document.querySelector('.popup_el_addCard');
 let closeAddCard = popupAddCard.querySelector('.popup__button_el_close');
 let nameCard = popupAddCard.querySelector('.popup__add-card_el_name-card');
 let linkCard = popupAddCard.querySelector('.popup__add-card_el_link-card');
-////////
+
+
+///Объявляем массив объектов с атрибутами name&link///
+
 const initialCards = [
   {
     name: 'Архыз',
@@ -41,26 +46,30 @@ const initialCards = [
   }
 ];
 
-////Заливка карточек из массива////
+///Заливка/удаление карточек из массива///
 
 initialCards.forEach((item) => {
   const cardItemsList = document.querySelector('.cards');
   const cardTemplate = document.querySelector('#card').content;
   const cardItem = cardTemplate.querySelector('.cards__item').cloneNode(true);
   const likeButtom = cardItem.querySelector('.cards__button-like');
+  const deleteButtom = cardItem.querySelector('.cards__button-delete');
   cardItem.querySelector('.cards__images').src = item.link;
   cardItem.querySelector('.cards__images').alt = item.name;
   cardItem.querySelector('.cards__title').textContent = item.name;
   likeButtom.addEventListener('click', function(evt) {
     evt.preventDefault();
     const buttonTarget = evt.target;
-    buttonTarget.classList.toggle('cards__button-like-active');
+    buttonTarget.classList.toggle('cards__button-like_active');
+  });
+  deleteButtom.addEventListener('click', function(evt) {
+    const buttonTarget = evt.target;
+    buttonTarget.parentElement.remove();
   });
   cardItemsList.append(cardItem);
 });
 
-////Добавление карточки по кнопке////
-
+////Добавление/удаление карточки по кнопке////
 
 popupAddCard.addEventListener('submit', function(evt) {
   evt.preventDefault();
@@ -68,13 +77,18 @@ popupAddCard.addEventListener('submit', function(evt) {
   const cardTemplate = document.querySelector('#card').content;
   const cardItem = cardTemplate.querySelector('.cards__item').cloneNode(true);
   const likeButtom = cardItem.querySelector('.cards__button-like');
+  const deleteButtom = cardItem.querySelector('.cards__button-delete');
   cardItem.querySelector('.cards__images').src = linkCard.value;
   cardItem.querySelector('.cards__images').alt = nameCard.value;
   cardItem.querySelector('.cards__title').textContent = nameCard.value;
   likeButtom.addEventListener('click', function(evt) {
     evt.preventDefault();
     const buttonTarget = evt.target;
-    buttonTarget.classList.toggle('cards__button-like-active');
+    buttonTarget.classList.toggle('cards__button-like_active');
+  });
+  deleteButtom.addEventListener('click', function(evt) {
+    const buttonTarget = evt.target;
+    buttonTarget.parentElement.remove();
   });
   cardItemsList.prepend(cardItem);
   popupAddCard.classList.remove('popup_opened');
@@ -116,11 +130,3 @@ buttomAddCard.addEventListener('click', function() {
 closeAddCard.addEventListener('click', function() {
   popupAddCard.classList.remove('popup_opened');
 });
-
-/////// Добавления  Лайка///////////
-/*let cardItemsList = document.querySelector('.cards');
-cardItemsList.addEventListener('click', function(evt) {
-  evt.preventDefault();
-  const buttonTarget = evt.target;
-  buttonTarget.classList.toggle('cards__button-like-active');
-});*/

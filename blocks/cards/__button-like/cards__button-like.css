@@ -17,7 +17,3 @@
 .cards__button-like:active {
   background: url(../../../images/button-like-active.svg) center no-repeat;
 }
-
-.cards__button-like-active {
-  background: url(../../../images/button-like-active.svg) center no-repeat;
-}
