@@ -12,8 +12,8 @@ let userDescription = document.querySelector('.info__user-description');
 let buttomAddCard = document.querySelector('.profile__button-add');
 let popupAddCard = document.querySelector('.popup_el_addCard');
 let closeAddCard = popupAddCard.querySelector('.popup__button_el_close');
-let nameCard = popupAddCard.querySelector('.popup__add-card_el_name-card');
-let linkCard = popupAddCard.querySelector('.popup__add-card_el_link-card');
+let nameCard = popupAddCard.querySelector('.popup__profile_el_name-card');
+let linkCard = popupAddCard.querySelector('.popup__profile_el_link-card');
 
 //Открытие для попапа просмотра изображения
 let openPopupPreview = document.querySelector('.popup_el_preview');
