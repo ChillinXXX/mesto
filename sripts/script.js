@@ -47,9 +47,15 @@ initialCards.forEach((item) => {
   const cardItemsList = document.querySelector('.cards');
   const cardTemplate = document.querySelector('#card').content;
   const cardItem = cardTemplate.querySelector('.cards__item').cloneNode(true);
+  const likeButtom = cardItem.querySelector('.cards__button-like');
   cardItem.querySelector('.cards__images').src = item.link;
   cardItem.querySelector('.cards__images').alt = item.name;
   cardItem.querySelector('.cards__title').textContent = item.name;
+  likeButtom.addEventListener('click', function(evt) {
+    evt.preventDefault();
+    const buttonTarget = evt.target;
+    buttonTarget.classList.toggle('cards__button-like-active');
+  });
   cardItemsList.append(cardItem);
 });
 
@@ -61,9 +67,15 @@ popupAddCard.addEventListener('submit', function(evt) {
   const cardItemsList = document.querySelector('.cards');
   const cardTemplate = document.querySelector('#card').content;
   const cardItem = cardTemplate.querySelector('.cards__item').cloneNode(true);
+  const likeButtom = cardItem.querySelector('.cards__button-like');
   cardItem.querySelector('.cards__images').src = linkCard.value;
   cardItem.querySelector('.cards__images').alt = nameCard.value;
   cardItem.querySelector('.cards__title').textContent = nameCard.value;
+  likeButtom.addEventListener('click', function(evt) {
+    evt.preventDefault();
+    const buttonTarget = evt.target;
+    buttonTarget.classList.toggle('cards__button-like-active');
+  });
   cardItemsList.prepend(cardItem);
   popupAddCard.classList.remove('popup_opened');
 });
@@ -104,3 +116,11 @@ buttomAddCard.addEventListener('click', function() {
 closeAddCard.addEventListener('click', function() {
   popupAddCard.classList.remove('popup_opened');
 });
+
+/////// Добавления  Лайка///////////
+/*let cardItemsList = document.querySelector('.cards');
+cardItemsList.addEventListener('click', function(evt) {
+  evt.preventDefault();
+  const buttonTarget = evt.target;
+  buttonTarget.classList.toggle('cards__button-like-active');
+});*/
