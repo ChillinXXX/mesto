@@ -16,6 +16,9 @@ let closeAddCard = popupAddCard.querySelector('.popup__button_el_close');
 let nameCard = popupAddCard.querySelector('.popup__add-card_el_name-card');
 let linkCard = popupAddCard.querySelector('.popup__add-card_el_link-card');
 
+//Открытие ПОПАПА с картинкой//
+let openPopupPreview = document.querySelector('.popup_el_preview');
+let buttomClosePreview = openPopupPreview.querySelector('.popup__button_el_close');
 
 ///Объявляем массив объектов с атрибутами name&link///
 
@@ -54,6 +57,7 @@ initialCards.forEach((item) => {
   const cardItem = cardTemplate.querySelector('.cards__item').cloneNode(true);
   const likeButtom = cardItem.querySelector('.cards__button-like');
   const deleteButtom = cardItem.querySelector('.cards__button-delete');
+  const previewImage = cardItem.querySelector('.cards__images');
   cardItem.querySelector('.cards__images').src = item.link;
   cardItem.querySelector('.cards__images').alt = item.name;
   cardItem.querySelector('.cards__title').textContent = item.name;
@@ -65,6 +69,12 @@ initialCards.forEach((item) => {
   deleteButtom.addEventListener('click', function(evt) {
     const buttonTarget = evt.target;
     buttonTarget.parentElement.remove();
+  });
+  previewImage.addEventListener('click', function(evt) {
+    const previewImageTarget = evt.target;
+    openPopupPreview.querySelector('.popup__image').src = previewImageTarget.src;
+    openPopupPreview.querySelector('.popup__figcaption').textContent = previewImageTarget.alt;
+    openPopupPreview.classList.add('popup_opened');
   });
   cardItemsList.append(cardItem);
 });
@@ -78,6 +88,7 @@ popupAddCard.addEventListener('submit', function(evt) {
   const cardItem = cardTemplate.querySelector('.cards__item').cloneNode(true);
   const likeButtom = cardItem.querySelector('.cards__button-like');
   const deleteButtom = cardItem.querySelector('.cards__button-delete');
+  const previewImage = cardItem.querySelector('.cards__images');
   cardItem.querySelector('.cards__images').src = linkCard.value;
   cardItem.querySelector('.cards__images').alt = nameCard.value;
   cardItem.querySelector('.cards__title').textContent = nameCard.value;
@@ -89,6 +100,12 @@ popupAddCard.addEventListener('submit', function(evt) {
   deleteButtom.addEventListener('click', function(evt) {
     const buttonTarget = evt.target;
     buttonTarget.parentElement.remove();
+  });
+  previewImage.addEventListener('click', function(evt) {
+    const previewImageTarget = evt.target;
+    openPopupPreview.querySelector('.popup__image').src = previewImageTarget.src;
+    openPopupPreview.querySelector('.popup__figcaption').textContent = previewImageTarget.alt;
+    openPopupPreview.classList.add('popup_opened');
   });
   cardItemsList.prepend(cardItem);
   popupAddCard.classList.remove('popup_opened');
@@ -126,7 +143,13 @@ buttomAddCard.addEventListener('click', function() {
   linkCard.value = '';
   popupCloseButton = popupAddCard.querySelector('.popup__button_el_close');
 });
+
 ////// Обработчик события закрытия попапа добавления карточек////////
 closeAddCard.addEventListener('click', function() {
   popupAddCard.classList.remove('popup_opened');
+});
+
+////// Обработчик события закрытия попапа добавления карточек////////
+buttomClosePreview.addEventListener('click', function() {
+  openPopupPreview.classList.remove('popup_opened');
 });

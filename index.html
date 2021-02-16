@@ -82,8 +82,8 @@
     <form class="popup__container" name="info">
       <h2 class="popup__title">Редактировать профиль</h2>
       <fieldset class="popup__form">
-        <input type="text" class="popup__profile popup__profile_el_name" id="name" name="name" placeholder="Имя" required minlength="1" maxlength="50">
-        <input type="text" class="popup__profile popup__profile_el_about" id="about" name="about" placeholder="О себе" required minlength="1" maxlength="50">
+        <input type="text" class="popup__profile popup__profile_el_name" id="name" name="name" placeholder="Имя" required minlength="1" maxlength="30">
+        <input type="text" class="popup__profile popup__profile_el_about" id="about" name="about" placeholder="О себе" required minlength="1" maxlength="30">
       </fieldset>
       <button class="popup__button popup__button_el_save" type="submit">Сохранить</button>
       <button class="popup__button popup__button_el_close" type="reset"></button>
@@ -93,7 +93,7 @@
     <form class="popup__container" name="addCard">
       <h2 class="popup__title">Новое место</h2>
       <fieldset class="popup__form">
-        <input type="text" class="popup__profile popup__add-card_el_name-card" id="name" name="name-card" placeholder="Название" required minlength="1" maxlength="50">
+        <input type="text" class="popup__profile popup__add-card_el_name-card" id="name" name="name-card" placeholder="Название" required minlength="1" maxlength="30">
         <input type="text" class="popup__profile popup__add-card_el_link-card" id="about" name="link-card" placeholder="Ссылка на картинку" required minlength="1" maxlength="300">
       </fieldset>
       <button class="popup__button popup__button_el_save" type="submit">Создать</button>
@@ -103,8 +103,8 @@
   <div class="popup popup_el_preview">
     <figure class="popup__figure">
       <button class="popup__button popup__button_el_close"></button>
-      <img src="#" alt="#" class="popup__image">
-      <figcaption></figcaption>
+      <img class="popup__image" src="./images/place-kolsky.jpg" alt="#">
+      <figcaption class="popup__figcaption">КолымыКолымаКолыма</figcaption>
     </figure>
   </div>
   <template id="card">
