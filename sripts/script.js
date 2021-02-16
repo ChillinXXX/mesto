@@ -11,6 +11,8 @@ let userDescription = document.querySelector('.info__user-description');
 let buttomAddCard = document.querySelector('.profile__button-add'); // Записали объект в "кнопка добавить карточку" в переменную
 let popupAddCard = document.querySelector('.popup_el_addCard');
 let closeAddCard = popupAddCard.querySelector('.popup__button_el_close');
+let nameCard = popupAddCard.querySelector('.popup__add-card_el_name-card');
+let linkCard = popupAddCard.querySelector('.popup__add-card_el_link-card');
 ////////
 const initialCards = [
   {
@@ -51,6 +53,23 @@ initialCards.forEach((item) => {
   cardItemsList.append(cardItem);
 });
 
+////Добавление карточки по кнопке////
+
+
+popupAddCard.addEventListener('submit', function(evt) {
+  evt.preventDefault();
+  const cardItemsList = document.querySelector('.cards');
+  const cardTemplate = document.querySelector('#card').content;
+  const cardItem = cardTemplate.querySelector('.cards__item').cloneNode(true);
+  cardItem.querySelector('.cards__images').src = linkCard.value;
+  cardItem.querySelector('.cards__images').alt = nameCard.value;
+  cardItem.querySelector('.cards__title').textContent = nameCard.value;
+  cardItemsList.prepend(cardItem);
+  popupAddCard.classList.remove('popup_opened');
+});
+
+
+
 
 /*Обработчик события: "Открыть Popup" по клику кнопки Info*/
 popupOpenButton.addEventListener('click', function() {
@@ -74,15 +93,14 @@ popupInfo.addEventListener('submit', function(evt) {
   popup.classList.remove('popup_opened');
 });
 
-//////////////
+////// Обработчик события открытия попапа добавления карточек////////
 buttomAddCard.addEventListener('click', function() {
   popupAddCard.classList.add('popup_opened');
+  nameCard.value = '';
+  linkCard.value = '';
   popupCloseButton = popupAddCard.querySelector('.popup__button_el_close');
 });
-
+////// Обработчик события закрытия попапа добавления карточек////////
 closeAddCard.addEventListener('click', function() {
   popupAddCard.classList.remove('popup_opened');
 });
-
-
-/////////////
