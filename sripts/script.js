@@ -52,30 +52,21 @@ const initialCards = [
 
 //Добавлене карточек проходом массива, с созданием обработчиков событий
 initialCards.forEach((item) => {
-  const cardItem = cardTemplate.cloneNode(true);
+  //createCard(item);
+  /*const cardItem = cardTemplate.cloneNode(true);
   const likeButtom = cardItem.querySelector('.cards__button-like');
   const deleteButtom = cardItem.querySelector('.cards__button-delete');
   const previewImage = cardItem.querySelector('.cards__images');
-  likeButtom.addEventListener('click', function(evt) {
-    evt.preventDefault();
-    const buttonTarget = evt.target;
-    buttonTarget.classList.toggle('cards__button-like_active');
-  });
-  deleteButtom.addEventListener('click', function(evt) {
-    const buttonTarget = evt.target;
-    buttonTarget.parentElement.remove();
-  });
-  previewImage.addEventListener('click', function(evt) {
-    const previewImageTarget = evt.target;
-    popupPreview.querySelector('.popup__image').src = previewImageTarget.src;
-    popupPreview.querySelector('.popup__figcaption').textContent = previewImageTarget.alt;
-    openPopup(popupPreview, 'popup_opened-bigblack');
-  });
-
   previewImage.src = item.link;
   previewImage.alt = item.name;
   cardItem.querySelector('.cards__title').textContent = item.name;
-  cardItemsList.append(cardItem);
+
+  likeButtom.addEventListener('click', createLike);
+  deleteButtom.addEventListener('click', deleteCard);
+  previewImage.addEventListener('click', openPopupPreview);*/
+  const cardElem = createCard(item);
+  addCard(cardElem);
+  
 });
 
 //Добавлене карточек из формы с созданием обработчиков событий
@@ -85,26 +76,14 @@ popupAddCard.addEventListener('submit', function(evt) {
   const likeButtom = cardItem.querySelector('.cards__button-like');
   const deleteButtom = cardItem.querySelector('.cards__button-delete');
   const previewImage = cardItem.querySelector('.cards__images');
-  
-  likeButtom.addEventListener('click', function(evt) {
-    evt.preventDefault();
-    const buttonTarget = evt.target;
-    buttonTarget.classList.toggle('cards__button-like_active');
-  });
-  deleteButtom.addEventListener('click', function(evt) {
-    const buttonTarget = evt.target;
-    buttonTarget.parentElement.remove();
-  });
-  previewImage.addEventListener('click', function(evt) {
-    const previewImageTarget = evt.target;
-    popupPreview.querySelector('.popup__image').src = previewImageTarget.src;
-    popupPreview.querySelector('.popup__figcaption').textContent = previewImageTarget.alt;
-    openPopup(popupPreview, 'popup_opened-bigblack');
-  });
-
   previewImage.src = linkCard.value;
   previewImage.alt = nameCard.value;
   cardItem.querySelector('.cards__title').textContent = nameCard.value;
+  
+  likeButtom.addEventListener('click', createLike);
+  deleteButtom.addEventListener('click', deleteCard);
+  previewImage.addEventListener('click', openPopupPreview);
+
   cardItemsList.prepend(cardItem);
   closePopup(popupAddCard, 'popup_opened');
 });
@@ -157,11 +136,45 @@ function closePopup(popup, overflow) {
 }
 
 //Функция создания карточки
-function createCard() {
+function createCard(item) {
+  const cardItem = cardTemplate.cloneNode(true);
+  const likeButtom = cardItem.querySelector('.cards__button-like');
+  const deleteButtom = cardItem.querySelector('.cards__button-delete');
+  const previewImage = cardItem.querySelector('.cards__images');
+  previewImage.src = item.link;
+  previewImage.alt = item.name;
+  cardItem.querySelector('.cards__title').textContent = item.name;
 
+  likeButtom.addEventListener('click', createLike);
+  deleteButtom.addEventListener('click', deleteCard);
+  previewImage.addEventListener('click', openPopupPreview);
+
+ return cardItem;
 }
 
 //Функция добавления карточки
-function addCard() {
-  cardItemsList.append();
+function addCard(elem) {
+  cardItemsList.append(elem);
+}
+
+
+//Функция лайка-дизлайка
+function createLike(evt) {
+  evt.preventDefault();
+  const buttonTarget = evt.target;
+  buttonTarget.classList.toggle('cards__button-like_active');
+}
+
+//Функция удаления карточки по клику
+function deleteCard(evt) {
+  const buttonTarget = evt.target;
+  buttonTarget.parentElement.remove();
+}
+
+//Функция просмотра изображения по клику
+function openPopupPreview(evt) {
+  const previewImageTarget = evt.target;
+  popupPreview.querySelector('.popup__image').src = previewImageTarget.src;
+  popupPreview.querySelector('.popup__figcaption').textContent = previewImageTarget.alt;
+  openPopup(popupPreview, 'popup_opened-bigblack');
 }
