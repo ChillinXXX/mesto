@@ -35,15 +35,15 @@
   <footer class="footer">
     <p class="footer__copyright">&copy; 2020 Mesto Russia</p>
   </footer>
-  <div class="popup popup_el_info">
+  <div class="popup popup_el_info"> <!--'В данном случае _el_ является ключем модификатора блока по БЭМ'-->
     <form class="popup__container" name="info">
       <h2 class="popup__title">Редактировать профиль</h2>
       <fieldset class="popup__form">
-        <input type="text" class="popup__profile popup__profile_el_name" id="name" name="name" placeholder="Имя" required minlength="1" maxlength="30">
-        <input type="text" class="popup__profile popup__profile_el_about" id="about" name="about" placeholder="О себе" required minlength="1" maxlength="30">
+        <input type="text" class="popup__profile popup__profile_el_name" id="name" name="name" placeholder="Имя" required minlength="1" maxlength="30"> <!--'В данном случае _el_ является ключем модификатора элемента блока по БЭМ'-->
+        <input type="text" class="popup__profile popup__profile_el_about" id="about" name="about" placeholder="О себе" required minlength="1" maxlength="30"> <!--'В данном случае _el_ является ключем модификатора элемента блока по БЭМ'-->
       </fieldset>
-      <button class="popup__button popup__button_el_save" type="submit">Сохранить</button>
-      <button class="popup__button popup__button_el_close" type="reset"></button>
+      <button class="popup__button popup__button_el_save" type="submit">Сохранить</button> <!--'В данном случае _el_ является ключем модификатора элемента блока по БЭМ'-->
+      <button class="popup__button popup__button_el_close" type="reset"></button> <!--'В данном случае _el_ является ключем модификатора элемента блока по БЭМ'-->
     </form>
   </div>
   <div class="popup popup_el_addCard">
@@ -74,6 +74,7 @@
       <button class="cards__button-delete" type="button"></button>
     </li>
   </template>
+  <script src="./sripts/initial-сards.js"></script>
   <script src="./sripts/script.js"></script>
 </body>
 
