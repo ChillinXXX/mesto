@@ -60,7 +60,6 @@ initialCards.forEach((item) => {
   previewImage.src = item.link;
   previewImage.alt = item.name;
   cardItem.querySelector('.cards__title').textContent = item.name;
-
   likeButtom.addEventListener('click', createLike);
   deleteButtom.addEventListener('click', deleteCard);
   previewImage.addEventListener('click', openPopupPreview);*/
