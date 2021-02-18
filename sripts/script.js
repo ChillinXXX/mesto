@@ -22,30 +22,17 @@ const popupPreview = document.querySelector('.popup_el_preview');
 const buttomClosePreview = popupPreview.querySelector('.popup__button_el_close');
 
 
+//Функция создания объекта из Инпута
+function inputCard(){
+  const objCardInput = ({name: nameCard.value, link: linkCard.value});
+return objCardInput;
+}
+
 //Добавлене карточек проходом массива, с созданием обработчиков событий
-<<<<<<< HEAD
-initialCards.forEach((item) => {
-  //createCard(item);
-  /*const cardItem = cardTemplate.cloneNode(true);
-  const likeButtom = cardItem.querySelector('.cards__button-like');
-  const deleteButtom = cardItem.querySelector('.cards__button-delete');
-  const previewImage = cardItem.querySelector('.cards__images');
-  previewImage.src = item.link;
-  previewImage.alt = item.name;
-  cardItem.querySelector('.cards__title').textContent = item.name;
-  likeButtom.addEventListener('click', createLike);
-  deleteButtom.addEventListener('click', deleteCard);
-  previewImage.addEventListener('click', openPopupPreview);*/
-  const cardElem = createCard(item);
-  addCard(cardElem);
-  
-});
-=======
-initialCards.forEach((item) => addCardMass(item, createCard()));
->>>>>>> bf9bddef6dc069a2a7e01bd354a995ebe8d77ccb
+initialCards.forEach((item) => addCardMass(createCard(item)));
 
 //Функция создания разметки карточки
-function createCard() {
+function createCard(obj) {
   const cardItem = cardTemplate.cloneNode(true);
   const likeButtom = cardItem.querySelector('.cards__button-like');
   const deleteButtom = cardItem.querySelector('.cards__button-delete');
@@ -53,24 +40,28 @@ function createCard() {
   likeButtom.addEventListener('click', createLike);
   deleteButtom.addEventListener('click', deleteCard);
   previewImage.addEventListener('click', openPopupPreview);
+  cardItem.querySelector('.cards__images').src = obj.link;
+  cardItem.querySelector('.cards__images').alt = obj.name;
+  cardItem.querySelector('.cards__title').textContent = obj.name;
 
 return cardItem;
 }
 
 //Функция добавления карточки в DOM из массива
-function addCardMass(item, card) {
-  card.querySelector('.cards__images').src = item.link;
-  card.querySelector('.cards__images').alt = item.name;
-  card.querySelector('.cards__title').textContent = item.name;
-  cardItemsList.append(card);
+function addCardMass(cardItem) {
+  cardItemsList.append(cardItem);
 }
 
+//Обработчик события:Добавлене карточек из формы по событию
+popupAddCard.addEventListener('submit', function(evt) {
+  evt.preventDefault();
+  const obj = inputCard();
+  addCardForm(createCard(obj));
+});
+
 //Функция добавления карточки в DOM из формы
-function addCardForm(card) {
-  card.querySelector('.cards__images').src = linkCard.value;
-  card.querySelector('.cards__images').alt = nameCard.value;
-  card.querySelector('.cards__title').textContent = nameCard.value;
-  cardItemsList.prepend(card);
+function addCardForm(cardItem) {
+  cardItemsList.prepend(cardItem);
   closePopup(popupAddCard, 'popup_opened');
 }
 
@@ -105,11 +96,7 @@ function openPopupPreview(evt) {
   openPopup(popupPreview, 'popup_opened-bigblack');
 }
 
-//Обработчик события:Добавлене карточек из формы по событию
-popupAddCard.addEventListener('submit', function(evt) {
-  evt.preventDefault();
-  addCardForm(createCard());
-});
+
 
 //Обработчик события: открыть модальне окно Popup Info
 buttonOpenInfo.addEventListener('click', function() {
