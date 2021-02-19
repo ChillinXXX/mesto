@@ -22,26 +22,21 @@ const popupPreview = document.querySelector('.popup_el_preview');
 const buttomClosePreview = popupPreview.querySelector('.popup__button_el_close');
 
 
-//Функция создания объекта из Инпута
-function inputCard(){
-  const objCardInput = ({name: nameCard.value, link: linkCard.value});
-return objCardInput;
-}
-
 //Добавлене карточек проходом массива, с созданием обработчиков событий
 initialCards.forEach((item) => addCardMass(createCard(item)));
 
-//Функция создания разметки карточки
+//Функция создания карточки
 function createCard(obj) {
   const cardItem = cardTemplate.cloneNode(true);
   const likeButtom = cardItem.querySelector('.cards__button-like');
   const deleteButtom = cardItem.querySelector('.cards__button-delete');
   const previewImage = cardItem.querySelector('.cards__images');
+  const cardImage = cardItem.querySelector('.cards__images');
   likeButtom.addEventListener('click', createLike);
   deleteButtom.addEventListener('click', deleteCard);
   previewImage.addEventListener('click', openPopupPreview);
-  cardItem.querySelector('.cards__images').src = obj.link;
-  cardItem.querySelector('.cards__images').alt = obj.name;
+  cardImage.src = obj.link;
+  cardImage.alt = obj.name;
   cardItem.querySelector('.cards__title').textContent = obj.name;
 
 return cardItem;
@@ -49,30 +44,32 @@ return cardItem;
 
 //Функция добавления карточки в DOM из массива
 function addCardMass(cardItem) {
-  cardItemsList.append(cardItem);
+    cardItemsList.append(cardItem);
 }
+
+/*/Функция добавления карточки в DOM из формы
+function submitAddCardForm() {
+  cardItem = createCard(({name: nameCard.value, link: linkCard.value}));
+  cardItemsList.prepend(cardItem);
+  closePopup(popupAddCard);
+}*/
 
 //Обработчик события:Добавлене карточек из формы по событию
 popupAddCard.addEventListener('submit', function(evt) {
   evt.preventDefault();
-  const obj = inputCard();
-  addCardForm(createCard(obj));
+  const cardItem = createCard(({name: nameCard.value, link: linkCard.value}));
+  cardItemsList.prepend(cardItem);
+  closePopup(popupAddCard);
 });
 
-//Функция добавления карточки в DOM из формы
-function addCardForm(cardItem) {
-  cardItemsList.prepend(cardItem);
-  closePopup(popupAddCard, 'popup_opened');
-}
-
 //Функция открытия попапа
-function openPopup(popup, overflow) {
-  popup.classList.add(overflow);
+function openPopup(popup) {
+  popup.classList.add('popup_opened');
 }
 
 //Функция закрытия попапа
-function closePopup(popup, overflow) {
-  popup.classList.remove(overflow);
+function closePopup(popup) {
+  popup.classList.remove('popup_opened');
 }
 
 //Функция лайка-дизлайка
@@ -91,9 +88,11 @@ function deleteCard(evt) {
 //Функция просмотра изображения по клику
 function openPopupPreview(evt) {
   const previewImageTarget = evt.target;
-  popupPreview.querySelector('.popup__image').src = previewImageTarget.src;
+  const popupPreviewImage = popupPreview.querySelector('.popup__image');
+  popupPreviewImage.src = previewImageTarget.src;
+  popupPreviewImage.alt = previewImageTarget.alt;
   popupPreview.querySelector('.popup__figcaption').textContent = previewImageTarget.alt;
-  openPopup(popupPreview, 'popup_opened-bigblack');
+  openPopup(popupPreview);
 }
 
 
@@ -102,12 +101,12 @@ function openPopupPreview(evt) {
 buttonOpenInfo.addEventListener('click', function() {
   nameInput.value = userName.textContent;
   aboutInput.value = userDescription.textContent;
-  openPopup(popupEditInfo, 'popup_opened');
+  openPopup(popupEditInfo);
 });
 
 //Обработчик события: закрыть попап модального окна Инфо
 buttonCloseInfo.addEventListener('click', function() {
-  closePopup(popupEditInfo, 'popup_opened');
+  closePopup(popupEditInfo);
 });
 
 //Обработчик события: Изменение полей в форме инфо и "Закрыть Popup" по клику "Сохранить"
@@ -115,22 +114,22 @@ popupFormInfo.addEventListener('submit', function(evt) {
   evt.preventDefault();
   userName.textContent = nameInput.value;
   userDescription.textContent = aboutInput.value;
-  closePopup(popupEditInfo, 'popup_opened');
+  closePopup(popupEditInfo);
 });
 
 // Обработчик события: открытия попапа модального окна добавления карточек
 buttonOpenAddCard.addEventListener('click', function() {
-  openPopup(popupAddCard, 'popup_opened');
+  openPopup(popupAddCard);
   nameCard.value = '';
   linkCard.value = '';
 });
 
 // Обработчик события: закрытие попапа модального окна добавления карточек 
 buttonCloseAddCard.addEventListener('click', function() {
-  closePopup(popupAddCard, 'popup_opened');
+  closePopup(popupAddCard);
 });
 
 // Обработчик события: закрытия попапа модально окна просмотра изображения
 buttomClosePreview.addEventListener('click', function() {
-  closePopup(popupPreview, 'popup_opened-bigblack');
+  closePopup(popupPreview);
 });
