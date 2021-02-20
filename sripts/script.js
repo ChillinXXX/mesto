@@ -21,9 +21,8 @@ const cardTemplate = document.querySelector('#card').content;
 const popupPreview = document.querySelector('.popup_el_preview');
 const buttomClosePreview = popupPreview.querySelector('.popup__button_el_close');
 
-
 //Добавлене карточек проходом массива, с созданием обработчиков событий
-initialCards.forEach((item) => addCardMass(createCard(item)));
+initialCards.forEach((item) => addCard(createCard(item), true));
 
 //Функция создания карточки
 function createCard(obj) {
@@ -42,25 +41,15 @@ function createCard(obj) {
 return cardItem;
 }
 
-//Функция добавления карточки в DOM из массива
-function addCardMass(cardItem) {
-    cardItemsList.append(cardItem);
+//Функция добавления карточки в DOM
+function addCard(cardItem, placeItem) {
+    if (placeItem) {
+      cardItemsList.append(cardItem);
+    }
+    if(!placeItem) {
+      cardItemsList.prepend(cardItem);
+    }
 }
-
-/*/Функция добавления карточки в DOM из формы
-function submitAddCardForm() {
-  cardItem = createCard(({name: nameCard.value, link: linkCard.value}));
-  cardItemsList.prepend(cardItem);
-  closePopup(popupAddCard);
-}*/
-
-//Обработчик события:Добавлене карточек из формы по событию
-popupAddCard.addEventListener('submit', function(evt) {
-  evt.preventDefault();
-  const cardItem = createCard(({name: nameCard.value, link: linkCard.value}));
-  cardItemsList.prepend(cardItem);
-  closePopup(popupAddCard);
-});
 
 //Функция открытия попапа
 function openPopup(popup) {
@@ -95,7 +84,13 @@ function openPopupPreview(evt) {
   openPopup(popupPreview);
 }
 
-
+//Обработчик события:Добавлене карточек из формы по событию Sibmit
+popupAddCard.addEventListener('submit', function(evt) {
+  evt.preventDefault();
+  cardItem = createCard(({name: nameCard.value, link: linkCard.value}));
+  addCard(cardItem, false);
+  closePopup(popupAddCard);
+});
 
 //Обработчик события: открыть модальне окно Popup Info
 buttonOpenInfo.addEventListener('click', function() {
