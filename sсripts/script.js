@@ -1,9 +1,9 @@
 //Объявление переменных для редактирования профиля
 const popupEditInfo = document.querySelector('.popup_el_info');
 const buttonOpenInfo = document.querySelector('.info__button-info');
-const popupFormInfo = popupEditInfo.querySelector('.popup__container');
-const nameInput = popupFormInfo.querySelector('.popup__profile_el_name');
-const aboutInput = popupFormInfo.querySelector('.popup__profile_el_about');
+const popupFormInfo = popupEditInfo.querySelector('.popup__form');
+const nameInput = popupFormInfo.querySelector('.popup__input_el_name');
+const aboutInput = popupFormInfo.querySelector('.popup__input_el_about');
 const buttonCloseInfo = popupFormInfo.querySelector('.popup__button_el_close');
 const userName = document.querySelector('.info__user-name');
 const userDescription = document.querySelector('.info__user-description');
@@ -12,17 +12,17 @@ const userDescription = document.querySelector('.info__user-description');
 const buttonOpenAddCard = document.querySelector('.profile__button-add');
 const popupAddCard = document.querySelector('.popup_el_addCard');
 const buttonCloseAddCard = popupAddCard.querySelector('.popup__button_el_close');
-const nameCard = popupAddCard.querySelector('.popup__profile_el_name-card');
-const linkCard = popupAddCard.querySelector('.popup__profile_el_link-card');
+const nameCard = popupAddCard.querySelector('.popup__input_el_name-card');
+const linkCard = popupAddCard.querySelector('.popup__input_el_link-card');
 const cardItemsList = document.querySelector('.cards');
 const cardTemplate = document.querySelector('#card').content;
 
 //Объявления переменных для открытие для попапа просмотра изображения
 const popupPreview = document.querySelector('.popup_el_preview');
 const buttomClosePreview = popupPreview.querySelector('.popup__button_el_close');
+const popupPreviewImage = popupPreview.querySelector('.popup__image');
 
-//Добавлене карточек проходом массива, с созданием обработчиков событий
-initialCards.forEach((item) => addCard(createCard(item), true));
+
 
 //Функция создания карточки
 function createCard(obj) {
@@ -77,12 +77,14 @@ function deleteCard(evt) {
 //Функция просмотра изображения по клику
 function openPopupPreview(evt) {
   const previewImageTarget = evt.target;
-  const popupPreviewImage = popupPreview.querySelector('.popup__image');
   popupPreviewImage.src = previewImageTarget.src;
   popupPreviewImage.alt = previewImageTarget.alt;
   popupPreview.querySelector('.popup__figcaption').textContent = previewImageTarget.alt;
   openPopup(popupPreview);
 }
+
+//Добавлене карточек проходом массива, с созданием обработчиков событий
+initialCards.forEach((item) => addCard(createCard(item), true));
 
 //Обработчик события:Добавлене карточек из формы по событию Sibmit
 popupAddCard.addEventListener('submit', function(evt) {

@@ -1,4 +1,4 @@
-.popup__profile {
+.popup__input {
   width: 100%;
   padding: 0 0 10px 0;
   margin-bottom: 30px;
@@ -7,15 +7,15 @@
   
 }
 
-.popup__profile:last-child {
+.popup__input:last-child {
   margin-bottom: 0;
 }
 
-.popup__profile:focus {
+.popup__input:focus {
   outline: none;
 }
 
-.popup__profile::placeholder {
+.popup__input::placeholder {
   font-family: 'Inter', Arial, sans-serif;
   font-style: normal;
   font-weight: normal;

@@ -35,23 +35,27 @@
   <footer class="footer">
     <p class="footer__copyright">&copy; 2020 Mesto Russia</p>
   </footer>
-  <div class="popup popup_el_info"> <!--'В данном случае _el_ является ключем модификатора блока по БЭМ'-->
-    <form class="popup__container" name="info">
+  <div class="popup popup_el_info">
+    <form class="popup__form" name="info">
       <h2 class="popup__title">Редактировать профиль</h2>
-      <fieldset class="popup__form">
-        <input type="text" class="popup__profile popup__profile_el_name" id="name" name="name" placeholder="Имя" required minlength="1" maxlength="30"> <!--'В данном случае _el_ является ключем модификатора элемента блока по БЭМ'-->
-        <input type="text" class="popup__profile popup__profile_el_about" id="about" name="about" placeholder="О себе" required minlength="1" maxlength="30"> <!--'В данном случае _el_ является ключем модификатора элемента блока по БЭМ'-->
+      <fieldset class="popup__fieldset">
+        <input type="text" class="popup__input popup__input_el_name" id="name" name="name" placeholder="Имя" required minlength="2" maxlength="40">
+        <span class="popup__input-error name-error"></span>
+        <input type="text" class="popup__input popup__input_el_about" id="about" name="about" placeholder="О себе" required minlength="2" maxlength="200">
+        <span class="popup__input-error about-error"></span>
       </fieldset>
-      <button class="popup__button popup__button_el_save" type="submit">Сохранить</button> <!--'В данном случае _el_ является ключем модификатора элемента блока по БЭМ'-->
-      <button class="popup__button popup__button_el_close" type="reset"></button> <!--'В данном случае _el_ является ключем модификатора элемента блока по БЭМ'-->
+      <button class="popup__button popup__button_el_save" type="submit">Сохранить</button>
+      <button class="popup__button popup__button_el_close" type="reset"></button>
     </form>
   </div>
   <div class="popup popup_el_addCard">
-    <form class="popup__container" name="addCard">
+    <form class="popup__form" name="addCard">
       <h2 class="popup__title">Новое место</h2>
-      <fieldset class="popup__form">
-        <input type="text" class="popup__profile popup__profile_el_name-card" id="name-card" name="name-card" placeholder="Название" required minlength="1" maxlength="30">
-        <input type="text" class="popup__profile popup__profile_el_link-card" id="link-card" name="link-card" placeholder="Ссылка на картинку" required minlength="1" maxlength="300">
+      <fieldset class="popup__fieldset">
+        <input type="text" class="popup__input popup__input_el_name-card" id="name-card" name="name-card" placeholder="Название" required minlength="2" maxlength="30">
+        <span class="popup__input-error name-card-error"></span>
+        <input type="url" class="popup__input popup__input_el_link-card" id="link-card" name="link-card" placeholder="Ссылка на картинку" required>
+        <span class="popup__input-error link-card-error"></span>
       </fieldset>
       <button class="popup__button popup__button_el_save" type="submit">Создать</button>
       <button class="popup__button popup__button_el_close" type="reset"></button>
@@ -60,8 +64,8 @@
   <div class="popup popup_el_preview">
     <figure class="popup__figure">
       <button class="popup__button popup__button_el_close"></button>
-      <img class="popup__image" src="./images/place-kolsky.jpg" alt="#">
-      <figcaption class="popup__figcaption">КолымыКолымаКолыма</figcaption>
+      <img class="popup__image" src="#" alt="#">
+      <figcaption class="popup__figcaption">#</figcaption>
     </figure>
   </div>
   <template id="card">
@@ -74,8 +78,9 @@
       <button class="cards__button-delete" type="button"></button>
     </li>
   </template>
-  <script src="./sripts/initial-сards.js"></script>
-  <script src="./sripts/script.js"></script>
+  <script src="./sсripts/initial-сards.js"></script>
+  <script src="./sсripts/script.js"></script>
+  <script src="./sсripts/validate.js"></script>
 </body>
 
 </html>
