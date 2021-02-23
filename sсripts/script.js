@@ -96,9 +96,11 @@ popupAddCard.addEventListener('submit', function(evt) {
 
 //Обработчик события: открыть модальне окно Popup Info
 buttonOpenInfo.addEventListener('click', function() {
+  const buttonSubmit = popupFormInfo.querySelector('.popup__button_el_save');
   nameInput.value = userName.textContent;
   aboutInput.value = userDescription.textContent;
   openPopup(popupEditInfo);
+  activateButton(buttonSubmit, 'popup__button_inactive');
 });
 
 //Обработчик события: закрыть попап модального окна Инфо
@@ -116,9 +118,11 @@ popupFormInfo.addEventListener('submit', function(evt) {
 
 // Обработчик события: открытия попапа модального окна добавления карточек
 buttonOpenAddCard.addEventListener('click', function() {
+  const buttonSubmit = popupAddCard.querySelector('.popup__button_el_save');
   openPopup(popupAddCard);
   nameCard.value = '';
   linkCard.value = '';
+  deactivateButton(buttonSubmit, 'popup__button_inactive') 
 });
 
 // Обработчик события: закрытие попапа модального окна добавления карточек 
