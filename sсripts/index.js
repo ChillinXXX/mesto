@@ -17,12 +17,10 @@ const linkCard = popupAddCard.querySelector('.popup__input_el_link-card');
 const cardItemsList = document.querySelector('.cards');
 const cardTemplate = document.querySelector('#card').content;
 
-//Объявления переменных для открытие для попапа просмотра изображения
+//Объявления переменных для открытие попапа просмотра изображения
 const popupPreview = document.querySelector('.popup_el_preview');
 const buttomClosePreview = popupPreview.querySelector('.popup__button_el_close');
 const popupPreviewImage = popupPreview.querySelector('.popup__image');
-
-
 
 //Функция создания карточки
 function createCard(obj) {
@@ -38,27 +36,44 @@ function createCard(obj) {
   cardImage.alt = obj.name;
   cardItem.querySelector('.cards__title').textContent = obj.name;
 
-return cardItem;
+  return cardItem;
 }
 
 //Функция добавления карточки в DOM
 function addCard(cardItem, placeItem) {
-    if (placeItem) {
-      cardItemsList.append(cardItem);
-    }
-    if(!placeItem) {
-      cardItemsList.prepend(cardItem);
-    }
+  if (placeItem) {
+    cardItemsList.append(cardItem);
+  }
+  if (!placeItem) {
+    cardItemsList.prepend(cardItem);
+  }
+}
+
+//Функция закрытия попапов по клику оверлея
+const closePopupOverlay = (popupItem) => {
+  popupItem.addEventListener('click', (evt) => {
+    closePopup(evt.target);
+  });
+}
+
+//Функция закрытия попапов по нажатию клавиши Escape
+const closePopupPressKey = (evt) => {
+  if (evt.key === 'Escape') {
+    closePopup(document.querySelector('.popup_opened'));
+  }
 }
 
 //Функция открытия попапа
 function openPopup(popup) {
   popup.classList.add('popup_opened');
+  document.addEventListener('keydown', closePopupPressKey);
+  closePopupOverlay(popup);
 }
 
 //Функция закрытия попапа
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
+  document.removeEventListener('keydown', closePopupPressKey);
 }
 
 //Функция лайка-дизлайка
@@ -87,29 +102,29 @@ function openPopupPreview(evt) {
 initialCards.forEach((item) => addCard(createCard(item), true));
 
 //Обработчик события:Добавлене карточек из формы по событию Sibmit
-popupAddCard.addEventListener('submit', function(evt) {
+popupAddCard.addEventListener('submit', function (evt) {
   evt.preventDefault();
-  cardItem = createCard(({name: nameCard.value, link: linkCard.value}));
+  cardItem = createCard(({ name: nameCard.value, link: linkCard.value }));
   addCard(cardItem, false);
   closePopup(popupAddCard);
 });
 
 //Обработчик события: открыть модальне окно Popup Info
-buttonOpenInfo.addEventListener('click', function() {
+buttonOpenInfo.addEventListener('click', function () {
   const buttonSubmit = popupFormInfo.querySelector('.popup__button_el_save');
   nameInput.value = userName.textContent;
   aboutInput.value = userDescription.textContent;
   openPopup(popupEditInfo);
-  activateButton(buttonSubmit, 'popup__button_inactive');
+  activateButton(buttonSubmit, objectClass.inactiveButtonClass);
 });
 
 //Обработчик события: закрыть попап модального окна Инфо
-buttonCloseInfo.addEventListener('click', function() {
+buttonCloseInfo.addEventListener('click', function () {
   closePopup(popupEditInfo);
 });
 
 //Обработчик события: Изменение полей в форме инфо и "Закрыть Popup" по клику "Сохранить"
-popupFormInfo.addEventListener('submit', function(evt) {
+popupFormInfo.addEventListener('submit', function (evt) {
   evt.preventDefault();
   userName.textContent = nameInput.value;
   userDescription.textContent = aboutInput.value;
@@ -117,20 +132,20 @@ popupFormInfo.addEventListener('submit', function(evt) {
 });
 
 // Обработчик события: открытия попапа модального окна добавления карточек
-buttonOpenAddCard.addEventListener('click', function() {
+buttonOpenAddCard.addEventListener('click', function () {
   const buttonSubmit = popupAddCard.querySelector('.popup__button_el_save');
   openPopup(popupAddCard);
   nameCard.value = '';
   linkCard.value = '';
-  deactivateButton(buttonSubmit, 'popup__button_inactive') 
+  deactivateButton(buttonSubmit, objectClass.inactiveButtonClass);
 });
 
 // Обработчик события: закрытие попапа модального окна добавления карточек 
-buttonCloseAddCard.addEventListener('click', function() {
+buttonCloseAddCard.addEventListener('click', function () {
   closePopup(popupAddCard);
 });
 
 // Обработчик события: закрытия попапа модально окна просмотра изображения
-buttomClosePreview.addEventListener('click', function() {
+buttomClosePreview.addEventListener('click', function () {
   closePopup(popupPreview);
 });
