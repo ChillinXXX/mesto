@@ -25,6 +25,27 @@ const buttomClosePreview = popupPreview.querySelector('.popup__button_el_close')
 const popupPreviewImage = popupPreview.querySelector('.popup__image');
 const  popupPreviewFigcaption = popupPreview.querySelector('.popup__figcaption');
 
+//Функция лайка-дизлайка
+function createLike(evt) {
+  evt.preventDefault();
+  const buttonTarget = evt.target;
+  buttonTarget.classList.toggle('cards__button-like_active');
+}
+
+//Функция удаления карточки по клику
+function deleteCard(evt) {
+  const buttonTarget = evt.target;
+  buttonTarget.parentElement.remove();
+}
+
+//Функция просмотра изображения по клику
+function openPopupPreview(evt) {
+  const previewImageTarget = evt.target;
+  popupPreviewImage.src = previewImageTarget.src;
+  popupPreviewImage.alt = previewImageTarget.alt;
+  popupPreviewFigcaption.textContent = previewImageTarget.alt;
+  openPopup(popupPreview);
+}
 
 //Функция создания карточки
 function createCard(obj) {
@@ -53,12 +74,8 @@ function addCard(cardItem, placeItem) {
   }
 }
 
-//Функция закрытия попапов по клику оверлея
-const closePopupOverlay = (popupItem) => {
-  popupItem.addEventListener('click', (evt) => {
-    closePopup(evt.target);
-  });
-}
+//Добавлене карточек проходом массива, с созданием обработчиков событий
+initialCards.forEach((item) => addCard(createCard(item), true));
 
 //Функция закрытия попапов по нажатию клавиши Escape
 const closePopupPressKey = (evt) => {
@@ -67,44 +84,37 @@ const closePopupPressKey = (evt) => {
   }
 }
 
+//Функция: Удаление сообщения об ошибке 
+const deleteErrorMessege = (popup, object) => {
+  const formItem = popup.querySelector(object.formSelector);
+  const  errorInputList = Array.from(popup.querySelectorAll(`.${object.inputErrorClass}`));
+  errorInputList.forEach((inputItem) => {
+    hideInputError(formItem, inputItem, object);
+  });
+}
+
+//Функция закрытия попапов по клику оверлея
+const closePopupOverlay = (popupItem) => {
+  popupItem.addEventListener('mousedown', (evt) => {
+    if (evt.target == evt.currentTarget) {
+      closePopup(evt.target);
+    }   
+  });
+}
+
 //Функция открытия попапа
 function openPopup(popup) {
   popup.classList.add('popup_opened');
   document.addEventListener('keydown', closePopupPressKey);
-  closePopupOverlay(popup);
-  deleteErrorMessege(popup, validationConfig);
+  closePopupOverlay(popup);  
 }
 
 //Функция закрытия попапа
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
   document.removeEventListener('keydown', closePopupPressKey);
+  deleteErrorMessege(popup, validationConfig);
 }
-
-//Функция лайка-дизлайка
-function createLike(evt) {
-  evt.preventDefault();
-  const buttonTarget = evt.target;
-  buttonTarget.classList.toggle('cards__button-like_active');
-}
-
-//Функция удаления карточки по клику
-function deleteCard(evt) {
-  const buttonTarget = evt.target;
-  buttonTarget.parentElement.remove();
-}
-
-//Функция просмотра изображения по клику
-function openPopupPreview(evt) {
-  const previewImageTarget = evt.target;
-  popupPreviewImage.src = previewImageTarget.src;
-  popupPreviewImage.alt = previewImageTarget.alt;
-  popupPreviewFigcaption.textContent = previewImageTarget.alt;
-  openPopup(popupPreview);
-}
-
-//Добавлене карточек проходом массива, с созданием обработчиков событий
-initialCards.forEach((item) => addCard(createCard(item), true));
 
 //Обработчик события:Добавлене карточек из формы по событию Sibmit
 popupAddCard.addEventListener('submit', function (evt) {
@@ -152,23 +162,3 @@ buttonCloseAddCard.addEventListener('click', function () {
 buttomClosePreview.addEventListener('click', function () {
   closePopup(popupPreview);
 });
-
-/*const deleteErrorMessege = (popup, object) => { 
-  const errorInputArray = Array.from(popup.querySelectorAll(`.${object.inputErrorClass}`));
-  errorInputArray.forEach((inputItem) => {
-    inputItem.classList.remove(object.inputErrorClass);
-  });
-  const errorMessegeArray =  Array.from(popup.querySelectorAll(`.${object.errorClass}`));
-  errorMessegeArray.forEach((messegeItem) => {
-    messegeItem.classList.remove(object.errorClass);
-    messegeItem.textContent = '';
-  });
-}*/
-
-const deleteErrorMessege = (popup, object) => {
-  const formElement = popup.querySelector(object.formSelector);
-  const  errorInputArray = Array.from(popup.querySelectorAll(`.${object.inputErrorClass}`));
-  errorInputArray.forEach((inputElement) => {
-    hideInputError(formElement, inputElement, object);
-  });
-}
