@@ -1,4 +1,4 @@
-const objectClass = {
+const validationConfig = {
   formSelector: '.popup__form',
   inputSelector: '.popup__input',
   submitButtonSelector: '.popup__button_el_save',
@@ -80,4 +80,4 @@ const enableValidation = (object) => {
 };
 
 //Вызов функции валидации, передача объекта с параметрами
-enableValidation(objectClass);
+enableValidation(validationConfig);

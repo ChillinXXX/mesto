@@ -4,6 +4,7 @@ const buttonOpenInfo = document.querySelector('.info__button-info');
 const popupFormInfo = popupEditInfo.querySelector('.popup__form');
 const nameInput = popupFormInfo.querySelector('.popup__input_el_name');
 const aboutInput = popupFormInfo.querySelector('.popup__input_el_about');
+const buttonSubmitInfo = popupFormInfo.querySelector('.popup__button_el_save');
 const buttonCloseInfo = popupFormInfo.querySelector('.popup__button_el_close');
 const userName = document.querySelector('.info__user-name');
 const userDescription = document.querySelector('.info__user-description');
@@ -11,6 +12,7 @@ const userDescription = document.querySelector('.info__user-description');
 //Объявления переменных для попапа добавления карточек и обработчиков событий
 const buttonOpenAddCard = document.querySelector('.profile__button-add');
 const popupAddCard = document.querySelector('.popup_el_addCard');
+const buttonSubmitCard = popupAddCard.querySelector('.popup__button_el_save');
 const buttonCloseAddCard = popupAddCard.querySelector('.popup__button_el_close');
 const nameCard = popupAddCard.querySelector('.popup__input_el_name-card');
 const linkCard = popupAddCard.querySelector('.popup__input_el_link-card');
@@ -21,6 +23,8 @@ const cardTemplate = document.querySelector('#card').content;
 const popupPreview = document.querySelector('.popup_el_preview');
 const buttomClosePreview = popupPreview.querySelector('.popup__button_el_close');
 const popupPreviewImage = popupPreview.querySelector('.popup__image');
+const  popupPreviewFigcaption = popupPreview.querySelector('.popup__figcaption');
+
 
 //Функция создания карточки
 function createCard(obj) {
@@ -68,6 +72,7 @@ function openPopup(popup) {
   popup.classList.add('popup_opened');
   document.addEventListener('keydown', closePopupPressKey);
   closePopupOverlay(popup);
+  deleteErrorMessege(popup, validationConfig);
 }
 
 //Функция закрытия попапа
@@ -94,7 +99,7 @@ function openPopupPreview(evt) {
   const previewImageTarget = evt.target;
   popupPreviewImage.src = previewImageTarget.src;
   popupPreviewImage.alt = previewImageTarget.alt;
-  popupPreview.querySelector('.popup__figcaption').textContent = previewImageTarget.alt;
+  popupPreviewFigcaption.textContent = previewImageTarget.alt;
   openPopup(popupPreview);
 }
 
@@ -111,11 +116,10 @@ popupAddCard.addEventListener('submit', function (evt) {
 
 //Обработчик события: открыть модальне окно Popup Info
 buttonOpenInfo.addEventListener('click', function () {
-  const buttonSubmit = popupFormInfo.querySelector('.popup__button_el_save');
   nameInput.value = userName.textContent;
   aboutInput.value = userDescription.textContent;
   openPopup(popupEditInfo);
-  activateButton(buttonSubmit, objectClass.inactiveButtonClass);
+  activateButton(buttonSubmitInfo, validationConfig.inactiveButtonClass);
 });
 
 //Обработчик события: закрыть попап модального окна Инфо
@@ -133,11 +137,10 @@ popupFormInfo.addEventListener('submit', function (evt) {
 
 // Обработчик события: открытия попапа модального окна добавления карточек
 buttonOpenAddCard.addEventListener('click', function () {
-  const buttonSubmit = popupAddCard.querySelector('.popup__button_el_save');
   openPopup(popupAddCard);
   nameCard.value = '';
   linkCard.value = '';
-  deactivateButton(buttonSubmit, objectClass.inactiveButtonClass);
+  deactivateButton(buttonSubmitCard, validationConfig.inactiveButtonClass);
 });
 
 // Обработчик события: закрытие попапа модального окна добавления карточек 
@@ -149,3 +152,23 @@ buttonCloseAddCard.addEventListener('click', function () {
 buttomClosePreview.addEventListener('click', function () {
   closePopup(popupPreview);
 });
+
+/*const deleteErrorMessege = (popup, object) => { 
+  const errorInputArray = Array.from(popup.querySelectorAll(`.${object.inputErrorClass}`));
+  errorInputArray.forEach((inputItem) => {
+    inputItem.classList.remove(object.inputErrorClass);
+  });
+  const errorMessegeArray =  Array.from(popup.querySelectorAll(`.${object.errorClass}`));
+  errorMessegeArray.forEach((messegeItem) => {
+    messegeItem.classList.remove(object.errorClass);
+    messegeItem.textContent = '';
+  });
+}*/
+
+const deleteErrorMessege = (popup, object) => {
+  const formElement = popup.querySelector(object.formSelector);
+  const  errorInputArray = Array.from(popup.querySelectorAll(`.${object.inputErrorClass}`));
+  errorInputArray.forEach((inputElement) => {
+    hideInputError(formElement, inputElement, object);
+  });
+}
