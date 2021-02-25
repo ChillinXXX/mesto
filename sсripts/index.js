@@ -84,6 +84,13 @@ const closePopupPressKey = (evt) => {
   }
 }
 
+//Функция закрытия попапов по клику оверлея
+const closePopupOverlay = (evt) => {
+  if (evt.target == evt.currentTarget) {
+    closePopup(evt.target);
+  }
+}
+
 //Функция: Удаление сообщения об ошибке 
 const deleteErrorMessege = (popup, object) => {
   const formItem = popup.querySelector(object.formSelector);
@@ -93,27 +100,19 @@ const deleteErrorMessege = (popup, object) => {
   });
 }
 
-//Функция закрытия попапов по клику оверлея
-const closePopupOverlay = (popupItem) => {
-  popupItem.addEventListener('mousedown', (evt) => {
-    if (evt.target == evt.currentTarget) {
-      closePopup(evt.target);
-    }   
-  });
-}
-
 //Функция открытия попапа
 function openPopup(popup) {
   popup.classList.add('popup_opened');
   document.addEventListener('keydown', closePopupPressKey);
-  closePopupOverlay(popup);  
+  popup.addEventListener('mousedown', closePopupOverlay);  
 }
 
 //Функция закрытия попапа
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
   document.removeEventListener('keydown', closePopupPressKey);
-  deleteErrorMessege(popup, validationConfig);
+  popup.removeEventListener('mousedown', closePopupOverlay);
+  //deleteErrorMessege(popup, validationConfig);
 }
 
 //Обработчик события:Добавлене карточек из формы по событию Sibmit
@@ -129,6 +128,7 @@ buttonOpenInfo.addEventListener('click', function () {
   nameInput.value = userName.textContent;
   aboutInput.value = userDescription.textContent;
   openPopup(popupEditInfo);
+  deleteErrorMessege(popupEditInfo, validationConfig);
   activateButton(buttonSubmitInfo, validationConfig.inactiveButtonClass);
 });
 
@@ -150,6 +150,7 @@ buttonOpenAddCard.addEventListener('click', function () {
   openPopup(popupAddCard);
   nameCard.value = '';
   linkCard.value = '';
+  deleteErrorMessege(popupAddCard, validationConfig);
   deactivateButton(buttonSubmitCard, validationConfig.inactiveButtonClass);
 });
 
