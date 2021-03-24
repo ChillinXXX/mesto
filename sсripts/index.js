@@ -19,6 +19,7 @@ const linkCard = popupAddCard.querySelector('.popup__input_el_link-card');
 const cardItemsList = document.querySelector('.cards');
 const cardTemplate = document.querySelector('#card').content;
 
+
 //Объявления переменных для открытие попапа просмотра изображения
 const popupPreview = document.querySelector('.popup_el_preview');
 const buttomClosePreview = popupPreview.querySelector('.popup__button_el_close');
