@@ -23,7 +23,7 @@ const cardTemplate = document.querySelector('#card').content;
 const popupPreview = document.querySelector('.popup_el_preview');
 const buttomClosePreview = popupPreview.querySelector('.popup__button_el_close');
 const popupPreviewImage = popupPreview.querySelector('.popup__image');
-const  popupPreviewFigcaption = popupPreview.querySelector('.popup__figcaption');
+const popupPreviewFigcaption = popupPreview.querySelector('.popup__figcaption');
 
 //Функция лайка-дизлайка
 function createLike(evt) {
