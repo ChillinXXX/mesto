@@ -74,8 +74,8 @@ function addCard(cardItem, placeItem) {
   }
 }
 
-//Добавлене карточек проходом массива, с созданием обработчиков событий
-initialCards.forEach((item) => addCard(createCard(item), true));
+/*//Добавлене карточек проходом массива, с созданием обработчиков событий
+initialCards.forEach((item) => addCard(createCard(item), true));*/
 
 //Функция закрытия попапов по нажатию клавиши Escape
 const closePopupPressKey = (evt) => {
@@ -115,13 +115,13 @@ function closePopup(popup) {
   //deleteErrorMessege(popup, validationConfig);
 }
 
-//Обработчик события:Добавлене карточек из формы по событию Sibmit
+/*//Обработчик события:Добавлене карточек из формы по событию Sibmit
 popupAddCard.addEventListener('submit', function (evt) {
   evt.preventDefault();
   cardItem = createCard(({ name: nameCard.value, link: linkCard.value }));
   addCard(cardItem, false);
   closePopup(popupAddCard);
-});
+});*/
 
 //Обработчик события: открыть модальне окно Popup Info
 buttonOpenInfo.addEventListener('click', function () {
