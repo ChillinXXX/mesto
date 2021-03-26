@@ -1,8 +1,9 @@
 class Card {
-  constructor(cardData, cardSelector) {
+  constructor(cardData, cardSelector, functionOpenPopup) {
       this._name = cardData.name;
       this._image = cardData.link;
       this._cardSelector = cardSelector;
+      this._openPopupPreview = functionOpenPopup;
   }
 
   _getTemplateCard() {
@@ -42,13 +43,13 @@ class Card {
   _setEventListeners() {
     this._buttonLikeCard.addEventListener('click', () => {this._createLike()});
     this._buttonDeleteCard.addEventListener('click', () => {this._deleteCard()});
-    this._previewImageCard.addEventListener('click', () => {this._openPopupPreview()});
+    this._previewImageCard.addEventListener('click', this._openPopupPreview);
   }
 }
 
 //Добавлене карточек проходом массива, с созданием обработчиков событий
 initialCards.forEach((item) => {
-  const card = new Card(item, '#card');
+  const card = new Card(item, '#card', openPopupPreview);
   const cardElement = card.getCard();
 
   document.querySelector('.cards').append(cardElement);
@@ -57,7 +58,7 @@ initialCards.forEach((item) => {
 //Обработчик события:Добавлене карточек из формы по событию Sibmit
 popupAddCard.addEventListener('submit', function (evt) {
   evt.preventDefault();
-  const card = new Card({ name: nameCard.value, link: linkCard.value }, '#card');
+  const card = new Card({ name: nameCard.value, link: linkCard.value }, '#card', openPopupPreview);
   const cardElement = card.getCard();
   document.querySelector('.cards').prepend(cardElement);
   closePopup(popupAddCard);
