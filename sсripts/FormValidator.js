@@ -61,7 +61,6 @@ export default class FormValidator {
     this._buttonElement.disabled = true;
   }
   
-
   _hasInvalidInput() {
     return this._inputList.some((inputElement) => !inputElement.validity.valid);
   }
