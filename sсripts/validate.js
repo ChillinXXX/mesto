@@ -1,11 +1,11 @@
-const validationConfig = {
+/*const validationConfig = {
   formSelector: '.popup__form',
   inputSelector: '.popup__input',
   submitButtonSelector: '.popup__button_el_save',
   inactiveButtonClass: 'popup__button_inactive',
   inputErrorClass: 'popup__input_type_error',
   errorClass: 'popup__input-error_active'
-}
+}*/
 
 //Функция: Сообщение об ошибке валидации активно
 const showInputError = (formElement, inputElement, errorMessage, object) => {
@@ -80,4 +80,4 @@ const enableValidation = (object) => {
 };
 
 //Вызов функции валидации, передача объекта с параметрами
-enableValidation(validationConfig);
+//enableValidation(validationConfig);
