@@ -19,9 +19,9 @@ export default class Card {
     this._buttonLikeCard = this._card.querySelector('.cards__button-like');
     this._buttonDeleteCard = this._card.querySelector('.cards__button-delete');
     this._previewImageCard = this._card.querySelector('.cards__images');
+    this._previewImageCard.src = this._image;
+    this._previewImageCard.alt = this._name;
     this._card.querySelector('.cards__title').textContent = this._name;
-    this._card.querySelector('.cards__images').src = this._image;
-    this._card.querySelector('.cards__images').alt = this._name;
     this._setEventListeners();
     
     return this._card;
