@@ -12,6 +12,9 @@ class Card {
 
   getCard() {
     this._card = this._getTemplateCard();
+    this._buttonLikeCard = this._card.querySelector('.cards__button-like');
+    this._buttonDeleteCard = this._card.querySelector('.cards__button-delete');
+    this._previewImageCard = this._card.querySelector('.cards__images');
     this._card.querySelector('.cards__title').textContent = this._name;
     this._card.querySelector('.cards__images').src = this._image;
     this._card.querySelector('.cards__images').alt = this._name;
@@ -21,18 +24,25 @@ class Card {
   }
 
   _createLike() {
-    
+    this._buttonLikeCard.classList.toggle('cards__button-like_active');
+  }
+
+  _deleteCard() {
+    this._buttonDeleteCard.parentElement.remove();
+  }
+
+  _openPopupPreview() {
+    popupPreviewImage.src = this._previewImageCard.src;
+    popupPreviewImage.alt = this._previewImageCard.alt;
+    popupPreviewFigcaption.textContent = this._previewImageCard.alt;
+    openPopup(popupPreview);
   }
 
 
   _setEventListeners() {
-    const buttonLikeCard = this._card.querySelector('.cards__button-like');
-    const buttonDeleteCard = this._card.querySelector('.cards__button-delete');
-    const previewImageCard = this._card.querySelector('.cards__images');
-    
-    buttonLikeCard.addEventListener('click', () => {this._createLike()});
-    buttonDeleteCard.addEventListener('click', deleteCard);
-    previewImageCard.addEventListener('click', openPopupPreview);
+    this._buttonLikeCard.addEventListener('click', () => {this._createLike()});
+    this._buttonDeleteCard.addEventListener('click', () => {this._deleteCard()});
+    this._previewImageCard.addEventListener('click', () => {this._openPopupPreview()});
   }
 }
 
