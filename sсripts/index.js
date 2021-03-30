@@ -96,8 +96,7 @@ const openPopupPreview = (evt) => {
 const addCard = (cardItem, placeItem) => {
   if (placeItem) {
     cardItemsList.append(cardItem);
-  }
-  if (!placeItem) {
+  } else {
     cardItemsList.prepend(cardItem);
   }
 }

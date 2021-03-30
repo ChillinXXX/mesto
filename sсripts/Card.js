@@ -36,8 +36,8 @@ export default class Card {
   }
 
   _setEventListeners() {
-    this._buttonLikeCard.addEventListener('click', () => {this._createLike()});
-    this._buttonDeleteCard.addEventListener('click', () => {this._deleteCard()});
+    this._buttonLikeCard.addEventListener('click', () => this._createLike());
+    this._buttonDeleteCard.addEventListener('click', () => this._deleteCard());
     this._previewImageCard.addEventListener('click', this._openPopupPreview);
   }
 }
