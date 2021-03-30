@@ -1,12 +1,16 @@
-class Card {
-  constructor(cardData, cardSelector) {
+export default class Card {
+  constructor(cardData, cardSelector, functionOpenPopup) {
       this._name = cardData.name;
       this._image = cardData.link;
       this._cardSelector = cardSelector;
+      this._openPopupPreview = functionOpenPopup;
   }
 
   _getTemplateCard() {
-      const cardItem = document.querySelector(this._cardSelector).content.cloneNode(true);
+      const cardItem = document
+      .querySelector(this._cardSelector)
+      .content
+      .cloneNode(true);
       return cardItem;
   }
 
@@ -19,7 +23,7 @@ class Card {
     this._card.querySelector('.cards__images').src = this._image;
     this._card.querySelector('.cards__images').alt = this._name;
     this._setEventListeners();
- 
+    
     return this._card;
   }
 
@@ -31,24 +35,9 @@ class Card {
     this._buttonDeleteCard.parentElement.remove();
   }
 
-  _openPopupPreview() {
-    popupPreviewImage.src = this._previewImageCard.src;
-    popupPreviewImage.alt = this._previewImageCard.alt;
-    popupPreviewFigcaption.textContent = this._previewImageCard.alt;
-    openPopup(popupPreview);
-  }
-
-
   _setEventListeners() {
     this._buttonLikeCard.addEventListener('click', () => {this._createLike()});
     this._buttonDeleteCard.addEventListener('click', () => {this._deleteCard()});
-    this._previewImageCard.addEventListener('click', () => {this._openPopupPreview()});
+    this._previewImageCard.addEventListener('click', this._openPopupPreview);
   }
 }
-
-initialCards.forEach((item) => {
-  const card = new Card(item, '#card');
-  const cardElement = card.getCard();
-
-  document.querySelector('.cards').append(cardElement);
-});
