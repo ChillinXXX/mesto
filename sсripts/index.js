@@ -1,5 +1,7 @@
 import Card from './Card.js';
 import FormValidator from './FormValidator.js';
+import Section from './Section.js';
+import Popup from './Popup.js';
 
 //Объявление массива объектов с атрибутами name и link
 const initialCards = [
@@ -93,20 +95,20 @@ const openPopupPreview = (evt) => {
 }
 
 //Функция добавления карточки в DOM
-const addCard = (cardItem, placeItem) => {
+/*const addCard = (cardItem, placeItem) => {
   if (placeItem) {
     cardItemsList.append(cardItem);
   } else {
     cardItemsList.prepend(cardItem);
   }
-}
+}*/
 
 //Добавлене карточек проходом массива, с созданием обработчиков событий
-initialCards.forEach((item) => {
+/*initialCards.forEach((item) => {
   const card = new Card(item, '#card', openPopupPreview);
   const cardElement = card.getCard();
   addCard(cardElement, true);
-});
+});*/
 
 //Функция закрытия попапов по нажатию клавиши Escape
 const closePopupPressKey = (evt) => {
@@ -147,7 +149,7 @@ const deleteErrorMessege = (formItem, objectSetup) => {
 const popupSetEventListeners = (popupItem) => {
   popupItem.addEventListener('click', (evt) => {
     if (evt.target.classList.contains('popup_opened') || evt.target.classList.contains('popup__button_el_close')) {
-      closePopup(popupItem);
+      //closePopup(popupItem);
     }
   });
 }
@@ -183,10 +185,41 @@ buttonOpenAddCard.addEventListener('click', function () {
 });
 
 //Обработчик события:Добавлене карточек из формы по событию Submit
-formAddCard.addEventListener('submit', function (evt) {
+/*formAddCard.addEventListener('submit', function (evt) {
   evt.preventDefault();
   const card = new Card({ name: inputNameCard.value, link: inputLinkCard.value }, '#card', openPopupPreview);
   const cardElement = card.getCard();
   addCard(cardElement, false);
   closePopup(popupAddCard);
-});
+});*/
+
+///////////////////////////////{ХЕРАЧУ ТУТ:8}///////////////////////
+//Добавление картоек из массива  при помощи класса Section:
+const cardList = new Section({items: initialCards, renderer: (item) => {
+  const card = new Card(item, '#card', openPopupPreview);
+  const cardElement = card.getCard();
+  cardList.addItem(cardElement, true);
+  }
+}, ".cards" );
+cardList.renderItems();
+
+
+//Функция добавления карточки из формы при помощи класса Section:
+const publicCardForm  = (evt) => {
+  evt.preventDefault();
+  const cardList = new Section({items: [{ name: inputNameCard.value, link: inputLinkCard.value }], renderer: (item) => {
+    const card = new Card(item, '#card', openPopupPreview);
+    const cardElement = card.getCard();
+    cardList.addItem(cardElement, false);
+    closePopup(popupAddCard);
+    }
+  }, ".cards");
+  cardList.renderItems();
+}
+
+//Слушатель события Submit для формы добавления карточки:
+formAddCard.addEventListener('submit', publicCardForm);
+
+const popupInfoEdit = new Popup('.popup_el_info');
+popupInfoEdit.setEventListeners();
+//popupInfoEdit.open();
