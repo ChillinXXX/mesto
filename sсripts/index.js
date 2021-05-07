@@ -2,6 +2,9 @@ import Card from './Card.js';
 import FormValidator from './FormValidator.js';
 import Section from './Section.js';
 import Popup from './Popup.js';
+import PopupWithImage from './PopupWithImage.js';
+import PopupWithForm from './PopupWithForm.js';
+import UserInfo from './UserInfo.js';
 
 //Объявление массива объектов с атрибутами name и link
 const initialCards = [
@@ -146,18 +149,18 @@ const deleteErrorMessege = (formItem, objectSetup) => {
 }
 
 //Функция: Устанавливает слушатели события "клик" на попап, колбэк выполняет закрытие по событию на элементе "button Close" или "Popup"
-const popupSetEventListeners = (popupItem) => {
+/*const popupSetEventListeners = (popupItem) => {
   popupItem.addEventListener('click', (evt) => {
     if (evt.target.classList.contains('popup_opened') || evt.target.classList.contains('popup__button_el_close')) {
       //closePopup(popupItem);
     }
   });
-}
+}*/
 
 //Усановим слушатели проходом массива попапов
-popupArray.forEach((popupItem) => {
+/*popupArray.forEach((popupItem) => {
   popupSetEventListeners(popupItem);
-});
+});*/
 
 //Обработчик события: открыть модальне окно Popup Info
 buttonOpenInfo.addEventListener('click', function () {
@@ -169,12 +172,12 @@ buttonOpenInfo.addEventListener('click', function () {
 });
 
 //Обработчик события: Изменение полей в форме инфо и "Закрыть Popup" по клику "Сохранить"
-formProfileInfo.addEventListener('submit', function (evt) {
+/*formProfileInfo.addEventListener('submit', function (evt) {
   evt.preventDefault();
   userName.textContent = inputUserName.value;
   userDescription.textContent = inputUserAbout.value;
   closePopup(popupEditInfo);
-});
+});*/
 
 // Обработчик события: открытия попапа модального окна добавления карточек
 buttonOpenAddCard.addEventListener('click', function () {
@@ -194,7 +197,7 @@ buttonOpenAddCard.addEventListener('click', function () {
 });*/
 
 ///////////////////////////////{ХЕРАЧУ ТУТ:8}///////////////////////
-//Добавление картоек из массива  при помощи класса Section:
+//Добавление картоек из массива:
 const cardList = new Section({items: initialCards, renderer: (item) => {
   const card = new Card(item, '#card', openPopupPreview);
   const cardElement = card.getCard();
@@ -203,23 +206,36 @@ const cardList = new Section({items: initialCards, renderer: (item) => {
 }, ".cards" );
 cardList.renderItems();
 
-
-//Функция добавления карточки из формы при помощи класса Section:
-const publicCardForm  = (evt) => {
-  evt.preventDefault();
-  const cardList = new Section({items: [{ name: inputNameCard.value, link: inputLinkCard.value }], renderer: (item) => {
+//Функция добавления карточки из формы:
+const submitCardForm  = (inputsData) => {
+  const cardList = new Section({items: [inputsData], renderer: (item) => {
     const card = new Card(item, '#card', openPopupPreview);
     const cardElement = card.getCard();
     cardList.addItem(cardElement, false);
-    closePopup(popupAddCard);
     }
   }, ".cards");
   cardList.renderItems();
 }
 
-//Слушатель события Submit для формы добавления карточки:
-formAddCard.addEventListener('submit', publicCardForm);
+//Функция редактирования информации о профиле:
 
-const popupInfoEdit = new Popup('.popup_el_info');
-popupInfoEdit.setEventListeners();
-//popupInfoEdit.open();
+const submitEditInfo = ({name, about}) => {
+  console.log({name, about});
+  userInfoForm.setUserInfo({name, about});
+}
+
+
+//Слушатель события Submit для формы добавления карточки:
+//formAddCard.addEventListener('submit', publicCardForm);
+
+const popupInfo = new PopupWithForm ('.popup_el_info', submitEditInfo);
+popupInfo.setEventListeners();
+const popupCard = new PopupWithForm('.popup_el_addCard', submitCardForm);
+popupCard.setEventListeners();
+const popupImage = new PopupWithImage('.popup_el_preview');
+popupImage.setEventListeners();
+
+//popupImage.open({imageLink: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg', imageDesc: 'Камчатка'});
+
+const userInfoForm = new UserInfo ({userNameSelector: '.info__user-name', userAboutSelector: '.info__user-description'});
+console.log(userInfoForm.getUserInfo());
