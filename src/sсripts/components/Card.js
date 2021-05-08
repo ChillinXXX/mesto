@@ -1,17 +1,17 @@
 export default class Card {
   constructor(cardData, cardSelector, functionOpenPopup) {
-      this._name = cardData.name;
-      this._image = cardData.link;
-      this._cardSelector = cardSelector;
-      this._openPopupPreview = functionOpenPopup;
+    this._name = cardData.name;
+    this._image = cardData.link;
+    this._cardSelector = cardSelector;
+    this._openPopupPreview = functionOpenPopup;
   }
 
   _getTemplateCard() {
-      const cardItem = document
+    const cardItem = document
       .querySelector(this._cardSelector)
       .content
       .cloneNode(true);
-      return cardItem;
+    return cardItem;
   }
 
   getCard() {
@@ -23,7 +23,7 @@ export default class Card {
     this._previewImageCard.alt = this._name;
     this._card.querySelector('.cards__title').textContent = this._name;
     this._setEventListeners();
-    
+
     return this._card;
   }
 

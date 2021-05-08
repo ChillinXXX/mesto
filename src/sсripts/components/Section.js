@@ -1,13 +1,10 @@
 export default class Section {
-  constructor({ items, renderer }, containerSelecor) {
+  constructor({ items, renderer, place }, containerSelecor) {
     this._rendererItems = items;
     this._renderer = renderer;
+    this._placeItem = place;
     this._conteiner = document.querySelector(containerSelecor);
   }
-
-  /*_clearConteiner() {
-    this._conteiner.innerHTML = '';
-  }*/
 
   addItem(cardItem, placeItem) {
     if (placeItem) {
@@ -19,7 +16,7 @@ export default class Section {
 
   renderItems() {
     this._rendererItems.forEach((item) => {
-      this._renderer(item);
+      this._renderer(item, this._placeItem);
     });
   }
 }
