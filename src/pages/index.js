@@ -35,7 +35,7 @@ const rendererCardElement = (item, place) => {
   cardList.addItem(cardElement, place);
 }
 
-//Функция добавления карточки из формы:
+//Функция: Добавления карточки из формы по событию Submit:
 const submitCardForm = (inputsData) => {
   const cardList = new Section({ items: [inputsData], renderer: rendererCardElement, place: false }, '.cards');
   cardList.renderItems();
@@ -68,7 +68,7 @@ popupImage.setEventListeners();
 //Создание экземпляров класса UserInfo
 const userInfoForm = new UserInfo({ userNameSelector: '.info__user-name', userAboutSelector: '.info__user-description' });
 
-//Обработчик события: открыть модальне окно Popup Info
+//Обработчик события: открыть модальне окно PopupInfo по клику
 buttonOpenInfo.addEventListener('click', () => {
   inputUserName.value = userInfoForm.getUserInfo().name;
   inputUserAbout.value = userInfoForm.getUserInfo().about;
@@ -77,7 +77,7 @@ buttonOpenInfo.addEventListener('click', () => {
   activateButton(buttonSubmitInfo, validationConfig.inactiveButtonClass);
 });
 
-// Обработчик события: открытия попапа модального окна добавления карточек
+// Обработчик события: открыть попап модального окна добавления карточек по клику
 buttonOpenAddCard.addEventListener('click', () => {
   popupCard.open();
   formAddCard.reset();

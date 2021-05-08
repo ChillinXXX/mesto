@@ -10,7 +10,7 @@ const closePopup = (popup) => {
   document.removeEventListener('keydown', closePopupPressKey);
 }
 
-//Функция закрытия попапов по нажатию клавиши Escape
+//Функция: закрыть попап по нажатию клавиши Escape
 const closePopupPressKey = (evt) => {
   if (evt.key === 'Escape') {
     closePopup(document.querySelector('.popup_opened'));
