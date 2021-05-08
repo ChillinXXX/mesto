@@ -5,20 +5,20 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="Колбин Илья">
-  <link rel="stylesheet" href="./pages/index.css">
-  <link rel="shortcut icon" href="./images/icon_practicum.png">
+  <!--<link rel="stylesheet" href="./pages/index.css">-->
+  <link rel="shortcut icon" href="<%=require('./images/icon_practicum.png')%>">
   <title>Mesto</title>
 </head>
 
 <body class="page">
   <header class="header">
     <a href="#" class="logo" target="_blank">
-      <img src="./images/logo.svg" alt="Логотип проекта Место" class="logo__image">
+      <img src="<%=require('./images/logo.svg')%>" alt="Логотип проекта Место" class="logo__image">
     </a>
   </header>
   <main class="content">
     <section class="profile">
-      <img src="./images/image-avatar.jpg" alt="Аватар" class="profile__avatar">
+      <img src="<%=require('./images/image-avatar.jpg')%>" alt="Аватар" class="profile__avatar">
       <div class="info">
         <div class="info__conteiner">
           <h1 class="info__user-name">Жак-Ив Кусто</h1>
