@@ -39,7 +39,7 @@ const validationConfig = {
 //Объект с селекторами для index.js
 const indexPageConfig = {
   cardSelector: '#card',
-  cardListSelector: '.cards',
+  containerSelecor: '.cards',
   popupInfoSelector: '.popup_el_info',
   popupAddCardSelector: '.popup_el_addCard',
   popupPreviewSelector: '.popup_el_preview',

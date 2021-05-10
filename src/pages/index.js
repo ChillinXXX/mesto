@@ -32,7 +32,7 @@ const openPopupPreview = (evt) => {
 
 // Функция: функция для передачи в renderer для класса Section
 const rendererCardElement = (item) => {
-  const card = new Card(item, indexPageConfig.cardSelector, openPopupPreview);
+  const card = new Card(item, indexPageConfig, openPopupPreview);
   const cardElement = card.getCard();
   return cardElement;
 }
@@ -55,7 +55,7 @@ const validationProfileInfo = new FormValidator(validationConfig, formProfileInf
 validationProfileInfo.enableValidation();
 
 //Добавление картоек из массива:
-const cardList = new Section({ items: initialCards, renderer: rendererCardElement, place: true }, indexPageConfig.cardListSelector);
+const cardList = new Section({ items: initialCards, renderer: rendererCardElement, place: true }, indexPageConfig);
 cardList.renderItems();
 
 //Создание экземпляров класса Popup и добавление слушателей:
@@ -75,7 +75,7 @@ buttonOpenInfo.addEventListener('click', () => {
   inputUserAbout.value = userInfoForm.getUserInfo().about;
   popupInfo.open();
   deleteErrorMessege(formProfileInfo, validationConfig);
-  activateButton(buttonSubmitInfo, validationConfig.inactiveButtonClass);
+  activateButton(buttonSubmitInfo, validationConfig);
 });
 
 // Обработчик события: открыть попап модального окна добавления карточек по клику
@@ -83,5 +83,5 @@ buttonOpenAddCard.addEventListener('click', () => {
   popupCard.open();
   formAddCard.reset();
   deleteErrorMessege(formAddCard, validationConfig);
-  deactivateButton(buttonSubmitCard, validationConfig.inactiveButtonClass);
+  deactivateButton(buttonSubmitCard, validationConfig);
 });

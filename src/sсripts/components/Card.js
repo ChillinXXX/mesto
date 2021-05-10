@@ -1,5 +1,5 @@
 export default class Card {
-  constructor(cardData, cardSelector, handleOpenPopupPreview) {
+  constructor(cardData, {cardSelector}, handleOpenPopupPreview) {
     this._name = cardData.name;
     this._image = cardData.link;
     this._cardSelector = cardSelector;

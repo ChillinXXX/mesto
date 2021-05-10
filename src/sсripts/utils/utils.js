@@ -18,30 +18,30 @@ const closePopupPressKey = (evt) => {
 }
 
 //Функция: Активация кнопки Submit
-const activateButton = (buttonElement, inactiveClass) => {
-  buttonElement.classList.remove(inactiveClass);
+const activateButton = (buttonElement, {inactiveButtonClass}) => {
+  buttonElement.classList.remove(inactiveButtonClass);
   buttonElement.disabled = false;
 }
 
 //Функция: Деактивация кнопки Submit
-const deactivateButton = (buttonElement, inactiveClass) => {
-  buttonElement.classList.add(inactiveClass);
+const deactivateButton = (buttonElement, {inactiveButtonClass}) => {
+  buttonElement.classList.add(inactiveButtonClass);
   buttonElement.disabled = true;
 }
 
 //Функция: Сообщение об ошибке валидации  не активно
-const hideInputError = (formElement, inputElement, objectSetup) => {
+const hideInputError = (formElement, inputElement, {inputErrorClass, errorClass}) => {
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-  inputElement.classList.remove(objectSetup.inputErrorClass);
-  errorElement.classList.remove(objectSetup.errorClass);
+  inputElement.classList.remove(inputErrorClass);
+  errorElement.classList.remove(errorClass);
   errorElement.textContent = '';
 }
 
 //Функция: Удаление сообщения об ошибке инпутов
-const deleteErrorMessege = (formItem, objectSetup) => {
-  const errorList = Array.from(formItem.querySelectorAll(`.${objectSetup.inputErrorClass}`));
+const deleteErrorMessege = (formItem, {inputErrorClass, errorClass}) => {
+  const errorList = Array.from(formItem.querySelectorAll(`.${inputErrorClass}`));
   errorList.forEach((errorItem) => {
-    hideInputError(formItem, errorItem, objectSetup);
+    hideInputError(formItem, errorItem, {inputErrorClass, errorClass});
   });
 }
 
