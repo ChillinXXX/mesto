@@ -8,6 +8,7 @@ import UserInfo from '../sсripts/components/UserInfo.js';
 import {
   initialCards,
   validationConfig,
+  indexPageConfig,
   buttonOpenInfo,
   formProfileInfo,
   inputUserName,
@@ -30,21 +31,20 @@ const openPopupPreview = (evt) => {
 }
 
 // Функция: функция для передачи в renderer для класса Section
-const rendererCardElement = (item, place) => {
-  const card = new Card(item, '#card', openPopupPreview);
+const rendererCardElement = (item) => {
+  const card = new Card(item, indexPageConfig.cardSelector, openPopupPreview);
   const cardElement = card.getCard();
-  cardList.addItem(cardElement, place);
+  return cardElement;
 }
 
-//Функция: Добавления карточки из формы по событию Submit:
-const submitCardForm = (inputsData) => {
-  const cardList = new Section({ items: [inputsData], renderer: rendererCardElement, place: false }, '.cards');
-  cardList.renderItems();
+//Функция: Колбэк для добавления карточки из формы по событию Submit:
+const submitAddCardForm = (inputsData) => {
+  const cardElement = rendererCardElement(inputsData);
+  cardList.addItem(cardElement, false);
 }
 
 //Функция: Редакция информации о профиле по событию Submit формы:
-const submitEditInfo = ({ name, about }) => {
-  //console.log({name, about});
+const submitEditInfoForm = ({ name, about }) => {
   userInfoForm.setUserInfo({ name, about });
 }
 
@@ -55,19 +55,19 @@ const validationProfileInfo = new FormValidator(validationConfig, formProfileInf
 validationProfileInfo.enableValidation();
 
 //Добавление картоек из массива:
-const cardList = new Section({ items: initialCards, renderer: rendererCardElement, place: true }, '.cards');
+const cardList = new Section({ items: initialCards, renderer: rendererCardElement, place: true }, indexPageConfig.cardListSelector);
 cardList.renderItems();
 
 //Создание экземпляров класса Popup и добавление слушателей:
-const popupInfo = new PopupWithForm('.popup_el_info', submitEditInfo);
+const popupInfo = new PopupWithForm(indexPageConfig.popupInfoSelector, submitEditInfoForm);
 popupInfo.setEventListeners();
-const popupCard = new PopupWithForm('.popup_el_addCard', submitCardForm);
+const popupCard = new PopupWithForm(indexPageConfig.popupAddCardSelector, submitAddCardForm);
 popupCard.setEventListeners();
-const popupImage = new PopupWithImage('.popup_el_preview');
+const popupImage = new PopupWithImage(indexPageConfig.popupPreviewSelector);
 popupImage.setEventListeners();
 
 //Создание экземпляров класса UserInfo
-const userInfoForm = new UserInfo({ userNameSelector: '.info__user-name', userAboutSelector: '.info__user-description' });
+const userInfoForm = new UserInfo(indexPageConfig);
 
 //Обработчик события: открыть модальне окно PopupInfo по клику
 buttonOpenInfo.addEventListener('click', () => {

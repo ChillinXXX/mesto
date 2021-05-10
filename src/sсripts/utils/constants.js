@@ -36,6 +36,17 @@ const validationConfig = {
   errorClass: 'popup__input-error_active'
 }
 
+//Объект с селекторами для index.js
+const indexPageConfig = {
+  cardSelector: '#card',
+  cardListSelector: '.cards',
+  popupInfoSelector: '.popup_el_info',
+  popupAddCardSelector: '.popup_el_addCard',
+  popupPreviewSelector: '.popup_el_preview',
+  userNameSelector: '.info__user-name',
+  userAboutSelector: '.info__user-description'
+}
+
 //Объявление переменных для редактирования профиля
 const popupEditInfo = document.querySelector('.popup_el_info');
 const buttonOpenInfo = document.querySelector('.info__button-info');
@@ -43,45 +54,23 @@ const formProfileInfo = popupEditInfo.querySelector('.popup__form');
 const inputUserName = formProfileInfo.querySelector('.popup__input_el_name');
 const inputUserAbout = formProfileInfo.querySelector('.popup__input_el_about');
 const buttonSubmitInfo = formProfileInfo.querySelector('.popup__button_el_save');
-const userName = document.querySelector('.info__user-name');
-const userDescription = document.querySelector('.info__user-description');
 
 //Объявление переменных для попапа добавления карточек и обработчиков событий
 const buttonOpenAddCard = document.querySelector('.profile__button-add');
 const popupAddCard = document.querySelector('.popup_el_addCard');
 const formAddCard = popupAddCard.querySelector('.popup__form');
 const buttonSubmitCard = formAddCard.querySelector('.popup__button_el_save');
-const inputNameCard = formAddCard.querySelector('.popup__input_el_name-card');
-const inputLinkCard = formAddCard.querySelector('.popup__input_el_link-card');
-const cardItemsList = document.querySelector('.cards');
-
-//Объявление переменных для открытие попапа просмотра изображения
-const popupPreview = document.querySelector('.popup_el_preview');
-const popupPreviewImage = popupPreview.querySelector('.popup__image');
-const popupPreviewFigcaption = popupPreview.querySelector('.popup__figcaption');
-//Запишем все попапы в массив
-const popupArray = [popupEditInfo, popupAddCard, popupPreview];
 
 export {
   initialCards,
   validationConfig,
-  popupEditInfo,
+  indexPageConfig,
   buttonOpenInfo,
   formProfileInfo,
   inputUserName,
   inputUserAbout,
   buttonSubmitInfo,
-  userName,
-  userDescription,
   buttonOpenAddCard,
-  popupAddCard,
   formAddCard,
-  buttonSubmitCard,
-  inputNameCard,
-  inputLinkCard,
-  cardItemsList,
-  popupPreview,
-  popupPreviewImage,
-  popupPreviewFigcaption,
-  popupArray
+  buttonSubmitCard
 }
