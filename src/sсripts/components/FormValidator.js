@@ -25,7 +25,7 @@ export default class FormValidator {
 
   _checkInputValidity(inputElement) {
     this._inputElement = inputElement;
-    this._errorMessege = this._formElement.querySelector(`.${this._inputElement.id}-error`); 
+    this._errorMessege = this._formElement.querySelector(`.${this._inputElement.id}-error`);
     if (!inputElement.validity.valid) {
       this._showInputError();
     } else {
@@ -60,7 +60,7 @@ export default class FormValidator {
     this._buttonElement.classList.add(this._inactiveButtonClass);
     this._buttonElement.disabled = true;
   }
-  
+
   _hasInvalidInput() {
     return this._inputList.some((inputElement) => !inputElement.validity.valid);
   }

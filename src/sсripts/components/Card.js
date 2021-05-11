@@ -1,17 +1,17 @@
 export default class Card {
-  constructor(cardData, cardSelector, functionOpenPopup) {
-      this._name = cardData.name;
-      this._image = cardData.link;
-      this._cardSelector = cardSelector;
-      this._openPopupPreview = functionOpenPopup;
+  constructor(cardData, {cardSelector}, handleOpenPopupPreview) {
+    this._name = cardData.name;
+    this._image = cardData.link;
+    this._cardSelector = cardSelector;
+    this._handleOpenPopupPreview = handleOpenPopupPreview;
   }
 
   _getTemplateCard() {
-      const cardItem = document
+    const cardItem = document
       .querySelector(this._cardSelector)
       .content
       .cloneNode(true);
-      return cardItem;
+    return cardItem;
   }
 
   getCard() {
@@ -23,7 +23,7 @@ export default class Card {
     this._previewImageCard.alt = this._name;
     this._card.querySelector('.cards__title').textContent = this._name;
     this._setEventListeners();
-    
+
     return this._card;
   }
 
@@ -36,8 +36,8 @@ export default class Card {
   }
 
   _setEventListeners() {
-    this._buttonLikeCard.addEventListener('click', () => {this._createLike()});
-    this._buttonDeleteCard.addEventListener('click', () => {this._deleteCard()});
-    this._previewImageCard.addEventListener('click', this._openPopupPreview);
+    this._buttonLikeCard.addEventListener('click', () => this._createLike());
+    this._buttonDeleteCard.addEventListener('click', () => this._deleteCard());
+    this._previewImageCard.addEventListener('click', this._handleOpenPopupPreview);
   }
 }
