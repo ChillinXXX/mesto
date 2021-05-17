@@ -5,6 +5,7 @@ import Section from '../sсripts/components/Section.js';
 import PopupWithImage from '../sсripts/components/PopupWithImage.js';
 import PopupWithForm from '../sсripts/components/PopupWithForm.js';
 import UserInfo from '../sсripts/components/UserInfo.js';
+import Api from '../sсripts/components/Api.js';
 import {
   initialCards,
   validationConfig,
@@ -85,3 +86,14 @@ buttonOpenAddCard.addEventListener('click', () => {
   deleteErrorMessege(formAddCard, validationConfig);
   deactivateButton(buttonSubmitCard, validationConfig);
 });
+
+const api = new Api({
+  baseUrl: 'https://nomoreparties.co/v1/cohort-24', headers: {
+      headers: {
+        authorization: 'b63830ed-4797-4bf0-871c-c795e3b54411'
+      }
+    }
+}, submitEditInfoForm, submitAddCardForm);
+
+api.getUserInfo();
+api.getInitialCardList();
