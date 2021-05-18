@@ -85,3 +85,11 @@ buttonOpenAddCard.addEventListener('click', () => {
   deleteErrorMessege(formAddCard, validationConfig);
   deactivateButton(buttonSubmitCard, validationConfig);
 });
+
+fetch('https://mesto.nomoreparties.co/v1/cohort-22/cards', {
+  headers: {
+    authorization: '72bb7037-0135-4ee2-9196-f8cb9b44df48'
+  }
+})
+.then(res => {return res.json()})
+.then(result => console.log(result))
