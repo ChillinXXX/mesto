@@ -5,6 +5,7 @@ import Section from '../sсripts/components/Section.js';
 import PopupWithImage from '../sсripts/components/PopupWithImage.js';
 import PopupWithForm from '../sсripts/components/PopupWithForm.js';
 import UserInfo from '../sсripts/components/UserInfo.js';
+import Api from '../sсripts/components/Api.js';
 import {
   initialCards,
   validationConfig,
@@ -59,7 +60,7 @@ const cardList = new Section({ items: initialCards, renderer: rendererCardElemen
 cardList.renderItems();
 
 //Создание экземпляров класса Popup и добавление слушателей:
-const popupInfo = new PopupWithForm(indexPageConfig.popupInfoSelector, submitEditInfoForm);
+const popupInfo = new PopupWithForm(indexPageConfig.popupInfoSelector, /*submitEditInfoForm*/({name, about}) => {api.setUserInfo({name, about})});
 popupInfo.setEventListeners();
 const popupCard = new PopupWithForm(indexPageConfig.popupAddCardSelector, submitAddCardForm);
 popupCard.setEventListeners();
@@ -86,10 +87,14 @@ buttonOpenAddCard.addEventListener('click', () => {
   deactivateButton(buttonSubmitCard, validationConfig);
 });
 
-fetch('https://mesto.nomoreparties.co/v1/cohort-22/cards', {
-  headers: {
-    authorization: '72bb7037-0135-4ee2-9196-f8cb9b44df48'
-  }
-})
-.then(res => {return res.json()})
-.then(result => console.log(result))
+const api = new Api({
+  baseUrl: 'https://nomoreparties.co/v1/cohort-24', headers: {
+      headers: {
+        authorization: 'b63830ed-4797-4bf0-871c-c795e3b54411'
+      }
+    }
+}, submitEditInfoForm, submitAddCardForm);
+
+api.getUserInfo();
+api.getInitialCardList();
+//api.setUserInfo({name: 'Волосатая змея', about: 'Просто волосатая змея'});
