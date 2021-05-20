@@ -34,7 +34,7 @@ export default class Api {
         }
       })
       .then((cardList) => {
-        //console.log(cardList);
+        console.log(cardList);
         cardList.forEach((card) => {
           this._handlerApiAddCard(card);
         });
@@ -42,7 +42,7 @@ export default class Api {
       .catch((error) => alert(`Что-то пошло не так=( ${error}`));
   }
 
-  setUserInfo({name, about}) {
+  setUserInfo({ name, about }) {
     fetch(`${this._baseUrl}/users/me`, {
       method: 'PATCH',
       headers: {
@@ -54,18 +54,44 @@ export default class Api {
         about: `${about}`
       })
     })
-    .then((result) => {
-      if(result.ok){
-        return result.json();
-      }else{
-        return Promise.reject(`Ошибка: ${result.status}`)
-      }
+      .then((result) => {
+        if (result.ok) {
+          return result.json();
+        } else {
+          return Promise.reject(`Ошибка: ${result.status}`)
+        }
+      })
+      .then((newUserData) => {
+        //console.log(newUserData);
+        this._handlerApiEditInfo(newUserData);
+        this._userAvatar.src = newUserData.avatar;
+      })
+      .catch((error) => alert(`Что-то пошло не так=( ${error}`));
+  }
+
+  setNewCard({ name, link }) {
+    fetch(`${this._baseUrl}/cards`, {
+      method: 'POST',
+      headers: {
+        authorization: 'b63830ed-4797-4bf0-871c-c795e3b54411',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        name: name,
+        link: link
+      })
     })
-    .then((newUserData) => {
-      console.log(newUserData);
-      this._handlerApiEditInfo(newUserData);
-      this._userAvatar.src = newUserData.avatar;
-    })
-    .catch((error) => alert(`Что-то пошло не так=( ${error}`));
+      .then((result) => {
+        if (result.ok) {
+          return result.json();
+        } else {
+          return Promise.reject(`Ошибка: ${result.status}`)
+        }
+      })
+      .then((newCardData) => {
+        //console.log(newCardData);
+        this._handlerApiAddCard(newCardData);
+      })
+      .catch((error) => alert(`Что-то пошло не так=( ${error}`))
   }
 }

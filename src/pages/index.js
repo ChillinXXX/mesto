@@ -56,13 +56,13 @@ const validationProfileInfo = new FormValidator(validationConfig, formProfileInf
 validationProfileInfo.enableValidation();
 
 //Добавление картоек из массива:
-const cardList = new Section({ items: initialCards, renderer: rendererCardElement, place: true }, indexPageConfig);
+const cardList = new Section({ items: []/*initialCards*/, renderer: rendererCardElement, place: true }, indexPageConfig);
 cardList.renderItems();
 
 //Создание экземпляров класса Popup и добавление слушателей:
 const popupInfo = new PopupWithForm(indexPageConfig.popupInfoSelector, /*submitEditInfoForm*/({name, about}) => {api.setUserInfo({name, about})});
 popupInfo.setEventListeners();
-const popupCard = new PopupWithForm(indexPageConfig.popupAddCardSelector, submitAddCardForm);
+const popupCard = new PopupWithForm(indexPageConfig.popupAddCardSelector, /*submitAddCardForm*/({name, link}) => {api.setNewCard({name, link})});
 popupCard.setEventListeners();
 const popupImage = new PopupWithImage(indexPageConfig.popupPreviewSelector);
 popupImage.setEventListeners();
@@ -98,3 +98,4 @@ const api = new Api({
 api.getUserInfo();
 api.getInitialCardList();
 //api.setUserInfo({name: 'Волосатая змея', about: 'Просто волосатая змея'});
+//api.setNewCard({name: 'Сок из свежих апельсинов', link: 'https://downloader.disk.yandex.ru/preview/a19659d10b918e2e9f82bb62c67152665c7a171e2bb72b72d1730a954e2fda66/60a3ec16/_PAiMW27kLGDgx09pIZRQYlyCF2KHFdT5pKehSXMFOHdvnSRgvUKgxU419njGZZpAe27o0AbdDf5sR7Yv9BBiw%3D%3D?uid=0&filename=IMG_7570.JPG&disposition=inline&hash=&limit=0&content_type=image%2Fjpeg&owner_uid=0&tknv=v2&size=2048x2048'});
