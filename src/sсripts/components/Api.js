@@ -1,14 +1,11 @@
 export default class Api {
-  constructor({ baseUrl, headers }, handlerApiEditInfo, handlerApiAddCard) {
+  constructor({ baseUrl, headers }) {
     this._baseUrl = baseUrl;
     this._headers = headers;
-    this._handlerApiEditInfo = handlerApiEditInfo;
-    this._handlerApiAddCard = handlerApiAddCard;
-    this._userAvatar = document.querySelector('.profile__avatar');
   }
 
   getUserInfo() {
-    fetch(`${this._baseUrl}/users/me`, this._headers)
+    return fetch(`${this._baseUrl}/users/me`, this._headers)
       .then((result) => {
         if (result.ok) {
           return result.json();
@@ -16,16 +13,10 @@ export default class Api {
           return Promise.reject(`Ошибка: ${result.status}`)
         }
       })
-      .then((userData) => {
-        //console.log(userData);
-        this._handlerApiEditInfo(userData);
-        this._userAvatar.src = userData.avatar;
-      })
-      .catch((error) => alert(`Что-то пошло не так=( ${error}`));
   }
 
   getInitialCardList() {
-    fetch(`${this._baseUrl}/cards`, this._headers)
+     return fetch(`${this._baseUrl}/cards`, this._headers)
       .then((result) => {
         if (result.ok) {
           return result.json();
@@ -33,17 +24,10 @@ export default class Api {
           return Promise.reject(`Ошибка: ${result.status}`)
         }
       })
-      .then((cardList) => {
-        console.log(cardList);
-        cardList.forEach((card) => {
-          this._handlerApiAddCard(card);
-        });
-      })
-      .catch((error) => alert(`Что-то пошло не так=( ${error}`));
   }
 
   setUserInfo({ name, about }) {
-    fetch(`${this._baseUrl}/users/me`, {
+    return fetch(`${this._baseUrl}/users/me`, {
       method: 'PATCH',
       headers: {
         authorization: 'b63830ed-4797-4bf0-871c-c795e3b54411',
@@ -61,16 +45,10 @@ export default class Api {
           return Promise.reject(`Ошибка: ${result.status}`)
         }
       })
-      .then((newUserData) => {
-        //console.log(newUserData);
-        this._handlerApiEditInfo(newUserData);
-        this._userAvatar.src = newUserData.avatar;
-      })
-      .catch((error) => alert(`Что-то пошло не так=( ${error}`));
   }
 
   setNewCard({ name, link }) {
-    fetch(`${this._baseUrl}/cards`, {
+    return fetch(`${this._baseUrl}/cards`, {
       method: 'POST',
       headers: {
         authorization: 'b63830ed-4797-4bf0-871c-c795e3b54411',
@@ -88,10 +66,39 @@ export default class Api {
           return Promise.reject(`Ошибка: ${result.status}`)
         }
       })
-      .then((newCardData) => {
-        //console.log(newCardData);
-        this._handlerApiAddCard(newCardData);
-      })
-      .catch((error) => alert(`Что-то пошло не так=( ${error}`))
+  }
+
+  setLike(cardID) {
+    fetch(`${this._baseUrl}/cards/likes/${cardID}`, {
+      method: 'PUT',
+      headers: {
+        authorization: 'b63830ed-4797-4bf0-871c-c795e3b54411'
+      }
+    })
+    .then((result) => result.ok ? result.json() : Promise.reject(`Ошибка: ${result.status}`))
+    .then((result) => console.log(result))
+    .catch((error) => alert(`Что-то пошло не так=( ${error}`));
+  }
+
+  deleteLike(cardID) {
+    fetch(`${this._baseUrl}/cards/likes/${cardID}`, {
+      method: 'DELETE',
+      headers: {
+        authorization: 'b63830ed-4797-4bf0-871c-c795e3b54411'
+      }
+    })
+    .then((result) => result.ok ? result.json() : Promise.reject(`Ошибка: ${result.status}`))
+    .then((result) => console.log(result))
+    .catch((error) => alert(`Что-то пошло не так=( ${error}`));
+  }
+
+  deleteCard(cardID) {
+    return fetch(`${this._baseUrl}/cards/${cardID}`, {
+      method: 'DELETE',
+      headers: {
+        authorization: 'b63830ed-4797-4bf0-871c-c795e3b54411'
+      }
+    })
+    .then((result) => result.ok ? result.json() : Promise.reject(`Ошибка: ${result.status}`))
   }
 }

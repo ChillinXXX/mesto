@@ -4,6 +4,7 @@ import FormValidator from '../sсripts/components/FormValidator.js';
 import Section from '../sсripts/components/Section.js';
 import PopupWithImage from '../sсripts/components/PopupWithImage.js';
 import PopupWithForm from '../sсripts/components/PopupWithForm.js';
+import PopupWithConfirm from '../sсripts/components/PopupWithConfirm.js';
 import UserInfo from '../sсripts/components/UserInfo.js';
 import Api from '../sсripts/components/Api.js';
 import {
@@ -31,17 +32,23 @@ const openPopupPreview = (evt) => {
   popupImage.open({ link: previewImageTarget.src, description: previewImageTarget.alt });
 }
 
+//Функцияя: Открытие попапа с кнопкой удаления
+const openPopupDeleteCard = (evt, cardId) => {
+  popupDeleteCard.open(evt.target, cardId);
+}
+
 // Функция: функция для передачи в renderer для класса Section
-const rendererCardElement = (item) => {
-  const card = new Card(item, indexPageConfig, openPopupPreview);
+const rendererCardElement = (cardData) => {
+  const userID = userInfoForm.getUserId();
+  const card = new Card(cardData, indexPageConfig, openPopupPreview, openPopupDeleteCard, userID);
   const cardElement = card.getCard();
   return cardElement;
 }
 
-//Функция: Колбэк для добавления карточки из формы по событию Submit:
-const submitAddCardForm = (inputsData) => {
-  const cardElement = rendererCardElement(inputsData);
-  cardList.addItem(cardElement, false);
+//Функция: Колбэк для добавления карточки из формы по событию Submit: 
+const submitAddCardForm = (cardData, place) => {
+  const cardElement = rendererCardElement(cardData);
+  cardList.addItem(cardElement, place);
 }
 
 //Функция: Редакция информации о профиле по событию Submit формы:
@@ -57,15 +64,38 @@ validationProfileInfo.enableValidation();
 
 //Добавление картоек из массива:
 const cardList = new Section({ items: []/*initialCards*/, renderer: rendererCardElement, place: true }, indexPageConfig);
-cardList.renderItems();
+//cardList.renderItems();
 
 //Создание экземпляров класса Popup и добавление слушателей:
-const popupInfo = new PopupWithForm(indexPageConfig.popupInfoSelector, /*submitEditInfoForm*/({name, about}) => {api.setUserInfo({name, about})});
+const popupInfo = new PopupWithForm(indexPageConfig.popupInfoSelector, /*submitEditInfoForm*/({ name, about }) => {
+  api.setUserInfo({ name, about })
+    .then((dataUser) => {
+      //console.log(dataUser);
+      userInfoForm.setUserInfo(dataUser);;
+    })
+    .catch((error) => alert(`Что-то пошло не так=( ${error}`));
+});
 popupInfo.setEventListeners();
-const popupCard = new PopupWithForm(indexPageConfig.popupAddCardSelector, /*submitAddCardForm*/({name, link}) => {api.setNewCard({name, link})});
+const popupCard = new PopupWithForm(indexPageConfig.popupAddCardSelector, /*submitAddCardForm*/({ name, link }) => {
+  api.setNewCard({ name, link })
+    .then((cardData) => {
+      //console.log(dataNewCard);
+      /*const cardElement = rendererCardElement(cardData);
+      cardList.addItem(cardElement, false);*/
+      submitAddCardForm(cardData, false);
+    })
+    .catch((error) => alert(`Что-то пошло не так=( ${error}`))
+});
 popupCard.setEventListeners();
 const popupImage = new PopupWithImage(indexPageConfig.popupPreviewSelector);
 popupImage.setEventListeners();
+const popupDeleteCard = new PopupWithConfirm(indexPageConfig.popupDeleteCardSelector, (buttonELement, cardId) => {
+  buttonELement.parentElement.remove();
+  api.deleteCard(cardId)
+    .then((result) => console.log(result))
+    .catch((error) => alert(`Что-то пошло не так=( ${error}`));
+});
+popupDeleteCard.setEventListeners();
 
 //Создание экземпляров класса UserInfo
 const userInfoForm = new UserInfo(indexPageConfig);
@@ -89,13 +119,27 @@ buttonOpenAddCard.addEventListener('click', () => {
 
 const api = new Api({
   baseUrl: 'https://nomoreparties.co/v1/cohort-24', headers: {
-      headers: {
-        authorization: 'b63830ed-4797-4bf0-871c-c795e3b54411'
-      }
+    headers: {
+      authorization: 'b63830ed-4797-4bf0-871c-c795e3b54411'
     }
-}, submitEditInfoForm, submitAddCardForm);
+  }
+});
 
-api.getUserInfo();
-api.getInitialCardList();
-//api.setUserInfo({name: 'Волосатая змея', about: 'Просто волосатая змея'});
-//api.setNewCard({name: 'Сок из свежих апельсинов', link: 'https://downloader.disk.yandex.ru/preview/a19659d10b918e2e9f82bb62c67152665c7a171e2bb72b72d1730a954e2fda66/60a3ec16/_PAiMW27kLGDgx09pIZRQYlyCF2KHFdT5pKehSXMFOHdvnSRgvUKgxU419njGZZpAe27o0AbdDf5sR7Yv9BBiw%3D%3D?uid=0&filename=IMG_7570.JPG&disposition=inline&hash=&limit=0&content_type=image%2Fjpeg&owner_uid=0&tknv=v2&size=2048x2048'});
+Promise.all([
+  api.getUserInfo(),
+  api.getInitialCardList()
+])
+  .then((results) => {
+    userInfoForm.setUserInfo(results[0]);
+    userInfoForm.setUserAvatar(results[0]);
+    userInfoForm.setUserId(results[0]);
+    return results[1];
+  })
+  .then((result) => {
+    result.forEach((cardData) => {
+      /*const cardElement = rendererCardElement(cardData);
+      cardList.addItem(cardElement, true);*/
+      submitAddCardForm(cardData, true);
+    })
+  })
+  .catch((error) => alert(`Что-то пошло не так=( ${error}`));

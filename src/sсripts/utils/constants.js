@@ -43,8 +43,10 @@ const indexPageConfig = {
   popupInfoSelector: '.popup_el_info',
   popupAddCardSelector: '.popup_el_addCard',
   popupPreviewSelector: '.popup_el_preview',
+  popupDeleteCardSelector: '.popup_el_delete-card',
   userNameSelector: '.info__user-name',
-  userAboutSelector: '.info__user-description'
+  userAboutSelector: '.info__user-description',
+  userAvatarSelector: '.profile__avatar'
 }
 
 //Объявление переменных для редактирования профиля
