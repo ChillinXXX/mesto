@@ -37,17 +37,34 @@ const openPopupDeleteCard = (evt, cardId) => {
   popupDeleteCard.open(evt.target, cardId);
 }
 
-// Функция: функция для передачи в renderer для класса Section
-const rendererCardElement = (cardData) => {
+// Функция: Создание экземпляра карточки
+const createCardElement = (dataCard) => {
   const userID = userInfoForm.getUserId();
-  const card = new Card(cardData, indexPageConfig, openPopupPreview, openPopupDeleteCard, userID);
+  const card = new Card(dataCard, indexPageConfig, openPopupPreview, openPopupDeleteCard,
+    (cardID) => {
+      api.setLike(cardID)
+        .then((result) => {
+          card._likes = result.likes;
+          card._likeCount.textContent = result.likes.length;
+        })
+        .catch((error) => alert(`Что-то пошло не так=( ${error}`));
+    },
+    (cardID) => {
+      api.deleteLike(cardID)
+        .then((result) => {
+          card._likes = result.likes;
+          card._likeCount.textContent = result.likes.length;
+        })
+        .catch((error) => alert(`Что-то пошло не так=( ${error}`));
+    },
+    userID);
   const cardElement = card.getCard();
   return cardElement;
 }
 
-//Функция: Колбэк для добавления карточки из формы по событию Submit: 
-const submitAddCardForm = (cardData, place) => {
-  const cardElement = rendererCardElement(cardData);
+//Функция: Колбэк для добавления карточки: 
+const rendererCardElement = (dataCard, place) => {
+  const cardElement = createCardElement(dataCard);
   cardList.addItem(cardElement, place);
 }
 
@@ -76,19 +93,26 @@ const popupInfo = new PopupWithForm(indexPageConfig.popupInfoSelector, /*submitE
     .catch((error) => alert(`Что-то пошло не так=( ${error}`));
 });
 popupInfo.setEventListeners();
-const popupCard = new PopupWithForm(indexPageConfig.popupAddCardSelector, /*submitAddCardForm*/({ name, link }) => {
+
+const popupAvatar = new PopupWithForm(indexPageConfig.popupAvatarSelector, ({link}) => {
+  api.setUserAvatar({link})
+  .then((result) => console.log(result))
+  .catch((error) => alert(`Что-то пошло не так=( ${error}`))
+});
+popupAvatar.setEventListeners();
+
+const popupCard = new PopupWithForm(indexPageConfig.popupAddCardSelector, /*rendererCardElement*/({ name, link }) => {
   api.setNewCard({ name, link })
-    .then((cardData) => {
-      //console.log(dataNewCard);
-      /*const cardElement = rendererCardElement(cardData);
-      cardList.addItem(cardElement, false);*/
-      submitAddCardForm(cardData, false);
+    .then((dataCard) => {
+      rendererCardElement(dataCard, false);
     })
     .catch((error) => alert(`Что-то пошло не так=( ${error}`))
 });
 popupCard.setEventListeners();
+
 const popupImage = new PopupWithImage(indexPageConfig.popupPreviewSelector);
 popupImage.setEventListeners();
+
 const popupDeleteCard = new PopupWithConfirm(indexPageConfig.popupDeleteCardSelector, (buttonELement, cardId) => {
   buttonELement.parentElement.remove();
   api.deleteCard(cardId)
@@ -136,10 +160,8 @@ Promise.all([
     return results[1];
   })
   .then((result) => {
-    result.forEach((cardData) => {
-      /*const cardElement = rendererCardElement(cardData);
-      cardList.addItem(cardElement, true);*/
-      submitAddCardForm(cardData, true);
+    result.forEach((dataCard) => {
+      rendererCardElement(dataCard, true);
     })
   })
   .catch((error) => alert(`Что-то пошло не так=( ${error}`));

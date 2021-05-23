@@ -15,6 +15,20 @@ export default class Api {
       })
   }
 
+  setUserAvatar({link}) {
+    return fetch(`${this._baseUrl}/users/me/avatar`, {
+      method: 'PATCH',
+      headers: {
+        authorization: 'b63830ed-4797-4bf0-871c-c795e3b54411',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        avatar: link
+      })
+    })
+    .then((result) => result.ok ? result.json() : Promise.reject(`Ошибка: ${result.status}`))
+  }
+
   getInitialCardList() {
      return fetch(`${this._baseUrl}/cards`, this._headers)
       .then((result) => {
@@ -69,27 +83,23 @@ export default class Api {
   }
 
   setLike(cardID) {
-    fetch(`${this._baseUrl}/cards/likes/${cardID}`, {
+    return fetch(`${this._baseUrl}/cards/likes/${cardID}`, {
       method: 'PUT',
       headers: {
         authorization: 'b63830ed-4797-4bf0-871c-c795e3b54411'
       }
     })
     .then((result) => result.ok ? result.json() : Promise.reject(`Ошибка: ${result.status}`))
-    .then((result) => console.log(result))
-    .catch((error) => alert(`Что-то пошло не так=( ${error}`));
   }
 
   deleteLike(cardID) {
-    fetch(`${this._baseUrl}/cards/likes/${cardID}`, {
+    return fetch(`${this._baseUrl}/cards/likes/${cardID}`, {
       method: 'DELETE',
       headers: {
         authorization: 'b63830ed-4797-4bf0-871c-c795e3b54411'
       }
     })
     .then((result) => result.ok ? result.json() : Promise.reject(`Ошибка: ${result.status}`))
-    .then((result) => console.log(result))
-    .catch((error) => alert(`Что-то пошло не так=( ${error}`));
   }
 
   deleteCard(cardID) {

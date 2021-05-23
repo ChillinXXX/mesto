@@ -16,8 +16,7 @@ export default class Section {
 
   renderItems() {
     this._rendererItems.forEach((item) => {
-      const cardItem = this._renderer(item);
-      this.addItem(cardItem, this._placeItem);
+      this._renderer(item, this._placeItem);
     });
   }
 }

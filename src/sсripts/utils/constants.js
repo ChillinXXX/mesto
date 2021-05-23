@@ -41,6 +41,7 @@ const indexPageConfig = {
   cardSelector: '#card',
   containerSelecor: '.cards',
   popupInfoSelector: '.popup_el_info',
+  popupAvatarSelector: '.popup_el_avatar',
   popupAddCardSelector: '.popup_el_addCard',
   popupPreviewSelector: '.popup_el_preview',
   popupDeleteCardSelector: '.popup_el_delete-card',
