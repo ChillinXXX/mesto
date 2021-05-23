@@ -96,7 +96,10 @@ popupInfo.setEventListeners();
 
 const popupAvatar = new PopupWithForm(indexPageConfig.popupAvatarSelector, ({link}) => {
   api.setUserAvatar({link})
-  .then((result) => console.log(result))
+  .then((result) => {
+    //console.log(result);
+    userInfoForm.setUserAvatar(result);
+  })
   .catch((error) => alert(`Что-то пошло не так=( ${error}`))
 });
 popupAvatar.setEventListeners();
