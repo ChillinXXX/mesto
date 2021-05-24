@@ -1,0 +1,44 @@
+.profile__edit-avatar {
+    position: relative;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  
+.profile__edit-avatar::after {
+    content: '';
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility .3s linear, opacity .3s linear;
+    width: 26px;
+    height: 26px;
+    background: url(../../../images/edit-avatar.svg) center no-repeat;
+    position: absolute;
+    top: calc(50% - 13px);
+    left: calc(50% - 13px);
+    z-index: 2;
+  }
+  
+.profile__edit-avatar::before {
+    content: '';
+    width: 100%;
+    border-radius: 50%;
+    padding-bottom: 100%;
+    background: #000;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility .3s linear, opacity .3s linear;;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+  }
+  
+.profile__edit-avatar:hover::after {
+    visibility: visible;
+    opacity: 1;
+  }
+  
+.profile__edit-avatar:hover::before {
+    visibility: visible;
+    opacity: .8;
+  }
