@@ -18,7 +18,10 @@ import {
   buttonSubmitInfo,
   buttonOpenAddCard,
   formAddCard,
-  buttonSubmitCard
+  buttonSubmitCard,
+  buttonOpenAvatar,
+  buttonSubmitAvatar,
+  formEditAvatar
 } from '../sсripts/utils/constants.js';
 import {
   activateButton,
@@ -78,6 +81,8 @@ const validationAddCard = new FormValidator(validationConfig, formAddCard);
 validationAddCard.enableValidation();
 const validationProfileInfo = new FormValidator(validationConfig, formProfileInfo);
 validationProfileInfo.enableValidation();
+const validationEditAvatar = new FormValidator(validationConfig, formEditAvatar);
+validationEditAvatar.enableValidation();
 
 //Добавление картоек из массива:
 const cardList = new Section({ items: []/*initialCards*/, renderer: rendererCardElement, place: true }, indexPageConfig);
@@ -142,6 +147,14 @@ buttonOpenAddCard.addEventListener('click', () => {
   formAddCard.reset();
   deleteErrorMessege(formAddCard, validationConfig);
   deactivateButton(buttonSubmitCard, validationConfig);
+});
+
+//Обработчик события: открыть попап изменить аватар по клику
+buttonOpenAvatar.addEventListener('click', () => {
+  popupAvatar.open();
+  formEditAvatar.reset();
+  deleteErrorMessege(formEditAvatar, validationConfig);
+  deactivateButton(buttonSubmitAvatar, validationConfig);
 });
 
 const api = new Api({

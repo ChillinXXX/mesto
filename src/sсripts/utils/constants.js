@@ -50,19 +50,25 @@ const indexPageConfig = {
   userAvatarSelector: '.profile__avatar'
 }
 
-//Объявление переменных для редактирования профиля
+//Элементы DOM
+const popupEditAvatar = document.querySelector('.popup_el_avatar');
+const popupAddCard = document.querySelector('.popup_el_addCard');
 const popupEditInfo = document.querySelector('.popup_el_info');
+
+const buttonOpenAvatar = document.querySelector('.profile__edit-avatar');
 const buttonOpenInfo = document.querySelector('.info__button-info');
+const buttonOpenAddCard = document.querySelector('.profile__button-add');
+
 const formProfileInfo = popupEditInfo.querySelector('.popup__form');
+const formAddCard = popupAddCard.querySelector('.popup__form');
+const formEditAvatar = popupEditAvatar.querySelector('.popup__form');
+
+const buttonSubmitInfo = formProfileInfo.querySelector('.popup__button_el_save');
+const buttonSubmitAvatar = formEditAvatar.querySelector('.popup__button_el_save');
+const buttonSubmitCard = formAddCard.querySelector('.popup__button_el_save');
+
 const inputUserName = formProfileInfo.querySelector('.popup__input_el_name');
 const inputUserAbout = formProfileInfo.querySelector('.popup__input_el_about');
-const buttonSubmitInfo = formProfileInfo.querySelector('.popup__button_el_save');
-
-//Объявление переменных для попапа добавления карточек и обработчиков событий
-const buttonOpenAddCard = document.querySelector('.profile__button-add');
-const popupAddCard = document.querySelector('.popup_el_addCard');
-const formAddCard = popupAddCard.querySelector('.popup__form');
-const buttonSubmitCard = formAddCard.querySelector('.popup__button_el_save');
 
 export {
   initialCards,
@@ -75,5 +81,8 @@ export {
   buttonSubmitInfo,
   buttonOpenAddCard,
   formAddCard,
-  buttonSubmitCard
+  buttonSubmitCard,
+  buttonOpenAvatar,
+  buttonSubmitAvatar,
+  formEditAvatar
 }
