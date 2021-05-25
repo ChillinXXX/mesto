@@ -26,7 +26,7 @@
     background: #000;
     visibility: hidden;
     opacity: 0;
-    transition: visibility .3s linear, opacity .3s linear;;
+    transition: visibility .3s linear, opacity .3s linear;
     position: absolute;
     top: 0;
     left: 0;
