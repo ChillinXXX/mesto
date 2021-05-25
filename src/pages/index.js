@@ -8,7 +8,6 @@ import PopupWithConfirm from '../sсripts/components/PopupWithConfirm.js';
 import UserInfo from '../sсripts/components/UserInfo.js';
 import Api from '../sсripts/components/Api.js';
 import {
-  initialCards,
   validationConfig,
   indexPageConfig,
   buttonOpenInfo,
@@ -21,7 +20,8 @@ import {
   buttonSubmitCard,
   buttonOpenAvatar,
   buttonSubmitAvatar,
-  formEditAvatar
+  formEditAvatar,
+  buttonTextContent
 } from '../sсripts/utils/constants.js';
 import {
   activateButton,
@@ -29,21 +29,44 @@ import {
   deleteErrorMessege
 } from '../sсripts/utils/utils.js';
 
-//Функция: Открытие попапа с картинкой по клику на карточку:
-const openPopupPreview = (evt) => {
-  const previewImageTarget = evt.target;
-  popupImage.open({ link: previewImageTarget.src, description: previewImageTarget.alt });
-}
+//Создание экземпляра класса с запросами к серверу
+const api = new Api({
+  baseUrl: 'https://nomoreparties.co/v1/cohort-24', 
+  token: 'b63830ed-4797-4bf0-871c-c795e3b54411'
+});
 
-//Функцияя: Открытие попапа с кнопкой удаления
-const openPopupDeleteCard = (evt, cardId) => {
-  popupDeleteCard.open(evt.target, cardId);
-}
+//Исполнение стэка промисов  и их обработка
+Promise.all([
+  api.getUserInfo(),
+  api.getInitialCardList()
+])
+  .then((results) => {
+    userInfo.setUserInfo(results[0]);
+    userInfo.setUserAvatar(results[0]);
+    userInfo.setUserId(results[0]);
+    return results[1];
+  })
+  .then((result) => {
+    result.forEach((dataCard) => {
+      rendererCardElement(dataCard, true);
+    })
+  })
+  .catch((error) => alert(`Что-то пошло не так=( ${error}`));
 
 // Функция: Создание экземпляра карточки
 const createCardElement = (dataCard) => {
-  const userID = userInfoForm.getUserId();
-  const card = new Card(dataCard, indexPageConfig, openPopupPreview, openPopupDeleteCard,
+  const userID = userInfo.getUserId();
+  const card = new Card(dataCard, indexPageConfig,
+    //Handle: Открыть попапа с картинкой по клику на карточку:
+    (evt) => {
+      const previewImageTarget = evt.target;
+      popupImage.open({ link: previewImageTarget.src, description: previewImageTarget.alt });
+    },
+    //Handle: Открыть попапа удаления карточки по клику кнопки
+    (evt, cardId) => {
+      popupDeleteCard.open(evt.target, cardId);
+    },
+    //Handle: Поставить лайк
     (cardID) => {
       api.setLike(cardID)
         .then((result) => {
@@ -52,6 +75,7 @@ const createCardElement = (dataCard) => {
         })
         .catch((error) => alert(`Что-то пошло не так=( ${error}`));
     },
+    //Handle: Удалить лайк
     (cardID) => {
       api.deleteLike(cardID)
         .then((result) => {
@@ -71,71 +95,88 @@ const rendererCardElement = (dataCard, place) => {
   cardList.addItem(cardElement, place);
 }
 
-//Функция: Редакция информации о профиле по событию Submit формы:
-const submitEditInfoForm = ({ name, about }) => {
-  userInfoForm.setUserInfo({ name, about });
-}
-
 //Создание экземпляров форм и их валидация
 const validationAddCard = new FormValidator(validationConfig, formAddCard);
 validationAddCard.enableValidation();
+
 const validationProfileInfo = new FormValidator(validationConfig, formProfileInfo);
 validationProfileInfo.enableValidation();
+
 const validationEditAvatar = new FormValidator(validationConfig, formEditAvatar);
 validationEditAvatar.enableValidation();
 
-//Добавление картоек из массива:
-const cardList = new Section({ items: []/*initialCards*/, renderer: rendererCardElement, place: true }, indexPageConfig);
-//cardList.renderItems();
+//Создание экземпляра класса секции:
+const cardList = new Section({ items: [], renderer: rendererCardElement, place: true }, indexPageConfig);
 
 //Создание экземпляров класса Popup и добавление слушателей:
-const popupInfo = new PopupWithForm(indexPageConfig.popupInfoSelector, /*submitEditInfoForm*/({ name, about }) => {
+const popupInfo = new PopupWithForm(indexPageConfig.popupInfoSelector,
+  //Handle: Запрос на изменеие данных пользователя
+  ({ name, about }) => {
+  popupInfo.setButtonTextContent(buttonTextContent.loading);
   api.setUserInfo({ name, about })
     .then((dataUser) => {
-      //console.log(dataUser);
-      userInfoForm.setUserInfo(dataUser);;
+      userInfo.setUserInfo(dataUser);;
     })
-    .catch((error) => alert(`Что-то пошло не так=( ${error}`));
+    .catch((error) => alert(`Что-то пошло не так=( ${error}`))
+    .finally(() => {
+      popupInfo.setButtonTextContent(buttonTextContent.save);
+      popupInfo.close();
+    });
 });
 popupInfo.setEventListeners();
 
-const popupAvatar = new PopupWithForm(indexPageConfig.popupAvatarSelector, ({link}) => {
-  api.setUserAvatar({link})
-  .then((result) => {
-    //console.log(result);
-    userInfoForm.setUserAvatar(result);
-  })
-  .catch((error) => alert(`Что-то пошло не так=( ${error}`))
+const popupAvatar = new PopupWithForm(indexPageConfig.popupAvatarSelector, 
+  //Handle: Запрос на изменение аватара пользователя
+  ({ link }) => {
+  popupAvatar.setButtonTextContent(buttonTextContent.loading);
+  api.setUserAvatar({ link })
+    .then((result) => {
+      userInfo.setUserAvatar(result);
+    })
+    .catch((error) => alert(`Что-то пошло не так=( ${error}`))
+    .finally(() => {
+      popupAvatar.setButtonTextContent(buttonTextContent.save);
+      popupAvatar.close();
+    });
 });
 popupAvatar.setEventListeners();
 
-const popupCard = new PopupWithForm(indexPageConfig.popupAddCardSelector, /*rendererCardElement*/({ name, link }) => {
+const popupCard = new PopupWithForm(indexPageConfig.popupAddCardSelector, 
+  //Handle: Запрос на добавление новой карточки и ее отрисовка
+  ({ name, link }) => {
+  popupCard.setButtonTextContent(buttonTextContent.loading);
   api.setNewCard({ name, link })
     .then((dataCard) => {
       rendererCardElement(dataCard, false);
     })
     .catch((error) => alert(`Что-то пошло не так=( ${error}`))
+    .finally(() => {
+      popupCard.setButtonTextContent(buttonTextContent.create);
+      popupCard.close();
+    });
 });
 popupCard.setEventListeners();
 
 const popupImage = new PopupWithImage(indexPageConfig.popupPreviewSelector);
 popupImage.setEventListeners();
 
-const popupDeleteCard = new PopupWithConfirm(indexPageConfig.popupDeleteCardSelector, (buttonELement, cardId) => {
+const popupDeleteCard = new PopupWithConfirm(indexPageConfig.popupDeleteCardSelector, 
+  //Handle: Запрос на удаление карточки
+  (buttonELement, cardId) => {
   buttonELement.parentElement.remove();
   api.deleteCard(cardId)
-    .then((result) => console.log(result))
+    //.then((result) => console.log(result))
     .catch((error) => alert(`Что-то пошло не так=( ${error}`));
 });
 popupDeleteCard.setEventListeners();
 
 //Создание экземпляров класса UserInfo
-const userInfoForm = new UserInfo(indexPageConfig);
+const userInfo = new UserInfo(indexPageConfig);
 
 //Обработчик события: открыть модальне окно PopupInfo по клику
 buttonOpenInfo.addEventListener('click', () => {
-  inputUserName.value = userInfoForm.getUserInfo().name;
-  inputUserAbout.value = userInfoForm.getUserInfo().about;
+  inputUserName.value = userInfo.getUserInfo().name;
+  inputUserAbout.value = userInfo.getUserInfo().about;
   popupInfo.open();
   deleteErrorMessege(formProfileInfo, validationConfig);
   activateButton(buttonSubmitInfo, validationConfig);
@@ -157,27 +198,3 @@ buttonOpenAvatar.addEventListener('click', () => {
   deactivateButton(buttonSubmitAvatar, validationConfig);
 });
 
-const api = new Api({
-  baseUrl: 'https://nomoreparties.co/v1/cohort-24', headers: {
-    headers: {
-      authorization: 'b63830ed-4797-4bf0-871c-c795e3b54411'
-    }
-  }
-});
-
-Promise.all([
-  api.getUserInfo(),
-  api.getInitialCardList()
-])
-  .then((results) => {
-    userInfoForm.setUserInfo(results[0]);
-    userInfoForm.setUserAvatar(results[0]);
-    userInfoForm.setUserId(results[0]);
-    return results[1];
-  })
-  .then((result) => {
-    result.forEach((dataCard) => {
-      rendererCardElement(dataCard, true);
-    })
-  })
-  .catch((error) => alert(`Что-то пошло не так=( ${error}`));

@@ -1,15 +1,15 @@
 export default class Card {
-  constructor({ name, link, likes, owner, _id }, { cardSelector }, handleOpenPopupPreview, handleOpenPopupDeleteCard, handeleCreateLike, handeleDeleteLike, userID) {
+  constructor({ name, link, likes, owner, _id }, { cardSelector }, handleOpenPreview, handleOpenDeleteCard, handeleSetLike, handeleDeleteLike, userID) {
     this._name = name;
     this._image = link;
     this._likes = likes;
     this._owner = owner;
     this._cardId = _id;
     this._cardSelector = cardSelector;
-    this._handleOpenPopupPreview = handleOpenPopupPreview;
-    this._handleOpenPopupDeleteCard = handleOpenPopupDeleteCard;
-    this._handeleCreateLike = handeleCreateLike;
-    this._handeleDeleteLike = handeleDeleteLike;
+    this._openPreview = handleOpenPreview;
+    this._openDeleteCard = handleOpenDeleteCard;
+    this._setLike = handeleSetLike;
+    this._deleteLike = handeleDeleteLike;
     this._userID = userID;
   }
 
@@ -32,8 +32,8 @@ export default class Card {
     this._likeCount.textContent = this._likes.length;
     this._card.querySelector('.cards__title').textContent = this._name;
     this._setEventListeners();
-    this._rendererButtonDelete(this._checkOwner());
-    this._rendererLike();
+    this._removeButtonDelete(this._checkOwner());
+    this._setUserLike();
     return this._card;
   }
 
@@ -45,11 +45,13 @@ export default class Card {
     };
   }
 
-  _rendererButtonDelete(isMyCard) {
-    isMyCard ? console.log('this is my CARD!') : this._buttonDeleteCard.remove();
+  _removeButtonDelete(isMyCard) {
+    isMyCard
+      ? 'this is my CARD!'
+      : this._buttonDeleteCard.remove();
   }
 
-  _rendererLike() {
+  _setUserLike() {
     this._likes.forEach((item) => {
       item._id == this._userID
         ? this._buttonLikeCard.classList.add('cards__button-like_active')
@@ -58,16 +60,16 @@ export default class Card {
   }
 
   _createLike() {
-    this._buttonLikeCard.classList.toggle('cards__button-like_active');
+    //Собераем ID пользователей лакнувших карточку в массив
     const likesId = this._likes.reduce((value, item) => {
-      const arr = value.push(item._id);
+      const arrayLength = value.push(item._id);
       return value;
     }, []);
-    //console.log(likesId.includes(this._userID));
-    //console.log(this._likes);
+    //Проверяем существует ли ID текущего пользователя в массиве
     likesId.includes(this._userID)
-      ? this._handeleDeleteLike(this._cardId)
-      : this._handeleCreateLike(this._cardId);
+      ? this._deleteLike(this._cardId)  //Если ID найден, ставим дизлайк
+      : this._setLike(this._cardId);    //Если ID в массиве нет, ставим лайк
+    this._buttonLikeCard.classList.toggle('cards__button-like_active');
   }
 
   _deleteCard() {
@@ -77,10 +79,10 @@ export default class Card {
   _setEventListeners() {
     this._buttonLikeCard.addEventListener('click', () => this._createLike());
 
-    this._buttonDeleteCard.addEventListener('click', /*() => this._deleteCard()*/(evt) => {
-      this._handleOpenPopupDeleteCard(evt, this._cardId)
+    this._buttonDeleteCard.addEventListener('click', (evt) => {
+      this._openDeleteCard(evt, this._cardId)
     });
 
-    this._previewImageCard.addEventListener('click', this._handleOpenPopupPreview);
+    this._previewImageCard.addEventListener('click', this._openPreview);
   }
 }

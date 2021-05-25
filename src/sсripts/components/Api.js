@@ -1,11 +1,15 @@
 export default class Api {
-  constructor({ baseUrl, headers }) {
+  constructor({ baseUrl, token }) {
     this._baseUrl = baseUrl;
-    this._headers = headers;
+    this._token = token;
   }
 
   getUserInfo() {
-    return fetch(`${this._baseUrl}/users/me`, this._headers)
+    return fetch(`${this._baseUrl}/users/me`, {
+      headers: {
+        authorization: this._token
+      }
+    })
       .then((result) => {
         if (result.ok) {
           return result.json();
@@ -19,7 +23,7 @@ export default class Api {
     return fetch(`${this._baseUrl}/users/me/avatar`, {
       method: 'PATCH',
       headers: {
-        authorization: 'b63830ed-4797-4bf0-871c-c795e3b54411',
+        authorization: this._token,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
@@ -30,7 +34,11 @@ export default class Api {
   }
 
   getInitialCardList() {
-     return fetch(`${this._baseUrl}/cards`, this._headers)
+     return fetch(`${this._baseUrl}/cards`, {
+      headers: {
+        authorization: this._token
+      }
+    })
       .then((result) => {
         if (result.ok) {
           return result.json();
@@ -44,7 +52,7 @@ export default class Api {
     return fetch(`${this._baseUrl}/users/me`, {
       method: 'PATCH',
       headers: {
-        authorization: 'b63830ed-4797-4bf0-871c-c795e3b54411',
+        authorization: this._token,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
@@ -65,7 +73,7 @@ export default class Api {
     return fetch(`${this._baseUrl}/cards`, {
       method: 'POST',
       headers: {
-        authorization: 'b63830ed-4797-4bf0-871c-c795e3b54411',
+        authorization: this._token,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
@@ -86,7 +94,7 @@ export default class Api {
     return fetch(`${this._baseUrl}/cards/likes/${cardID}`, {
       method: 'PUT',
       headers: {
-        authorization: 'b63830ed-4797-4bf0-871c-c795e3b54411'
+        authorization: this._token
       }
     })
     .then((result) => result.ok ? result.json() : Promise.reject(`Ошибка: ${result.status}`))
@@ -96,7 +104,7 @@ export default class Api {
     return fetch(`${this._baseUrl}/cards/likes/${cardID}`, {
       method: 'DELETE',
       headers: {
-        authorization: 'b63830ed-4797-4bf0-871c-c795e3b54411'
+        authorization: this._token
       }
     })
     .then((result) => result.ok ? result.json() : Promise.reject(`Ошибка: ${result.status}`))
@@ -106,7 +114,7 @@ export default class Api {
     return fetch(`${this._baseUrl}/cards/${cardID}`, {
       method: 'DELETE',
       headers: {
-        authorization: 'b63830ed-4797-4bf0-871c-c795e3b54411'
+        authorization: this._token
       }
     })
     .then((result) => result.ok ? result.json() : Promise.reject(`Ошибка: ${result.status}`))

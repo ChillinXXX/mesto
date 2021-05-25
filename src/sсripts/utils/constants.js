@@ -26,6 +26,7 @@ const initialCards = [
   }
 ];
 
+
 //Объект с данными для валидации форм.
 const validationConfig = {
   formSelector: '.popup__form',
@@ -48,6 +49,13 @@ const indexPageConfig = {
   userNameSelector: '.info__user-name',
   userAboutSelector: '.info__user-description',
   userAvatarSelector: '.profile__avatar'
+}
+
+//Текст для состояния кнопки Submit
+const buttonTextContent = {
+  loading: 'Сохранение...',
+  save: 'Сохранить',
+  create: 'Создать'
 }
 
 //Элементы DOM
@@ -84,5 +92,6 @@ export {
   buttonSubmitCard,
   buttonOpenAvatar,
   buttonSubmitAvatar,
-  formEditAvatar
+  formEditAvatar,
+  buttonTextContent
 }
