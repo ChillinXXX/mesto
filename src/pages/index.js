@@ -41,13 +41,12 @@ Promise.all([
   api.getInitialCardList()
 ])
   .then((results) => {
+    //Запишем результат промиса getUserInfo в экз.класса userInfo
     userInfo.setUserInfo(results[0]);
     userInfo.setUserAvatar(results[0]);
     userInfo.setUserId(results[0]);
-    return results[1];
-  })
-  .then((result) => {
-    result.forEach((dataCard) => {
+    //Создаем экз-ры класса Card и отрисовываем элементы
+    results[1].forEach((dataCard) => {
       rendererCardElement(dataCard, true);
     })
   })
@@ -70,8 +69,7 @@ const createCardElement = (dataCard) => {
     (cardID) => {
       api.setLike(cardID)
         .then((result) => {
-          card._likes = result.likes;
-          card._likeCount.textContent = result.likes.length;
+          card.editLike(result);
         })
         .catch((error) => alert(`Что-то пошло не так=( ${error}`));
     },
@@ -79,8 +77,7 @@ const createCardElement = (dataCard) => {
     (cardID) => {
       api.deleteLike(cardID)
         .then((result) => {
-          card._likes = result.likes;
-          card._likeCount.textContent = result.likes.length;
+          card.editLike(result);
         })
         .catch((error) => alert(`Что-то пошло не так=( ${error}`));
     },
@@ -115,13 +112,11 @@ const popupInfo = new PopupWithForm(indexPageConfig.popupInfoSelector,
   popupInfo.setButtonTextContent(buttonTextContent.loading);
   api.setUserInfo({ name, about })
     .then((dataUser) => {
-      userInfo.setUserInfo(dataUser);;
-    })
-    .catch((error) => alert(`Что-то пошло не так=( ${error}`))
-    .finally(() => {
+      userInfo.setUserInfo(dataUser);
       popupInfo.setButtonTextContent(buttonTextContent.save);
       popupInfo.close();
-    });
+    })
+    .catch((error) => alert(`Что-то пошло не так=( ${error}`));
 });
 popupInfo.setEventListeners();
 
@@ -132,12 +127,10 @@ const popupAvatar = new PopupWithForm(indexPageConfig.popupAvatarSelector,
   api.setUserAvatar({ link })
     .then((result) => {
       userInfo.setUserAvatar(result);
-    })
-    .catch((error) => alert(`Что-то пошло не так=( ${error}`))
-    .finally(() => {
       popupAvatar.setButtonTextContent(buttonTextContent.save);
       popupAvatar.close();
-    });
+    })
+    .catch((error) => alert(`Что-то пошло не так=( ${error}`));
 });
 popupAvatar.setEventListeners();
 
@@ -148,12 +141,10 @@ const popupCard = new PopupWithForm(indexPageConfig.popupAddCardSelector,
   api.setNewCard({ name, link })
     .then((dataCard) => {
       rendererCardElement(dataCard, false);
-    })
-    .catch((error) => alert(`Что-то пошло не так=( ${error}`))
-    .finally(() => {
       popupCard.setButtonTextContent(buttonTextContent.create);
       popupCard.close();
-    });
+    })
+    .catch((error) => alert(`Что-то пошло не так=( ${error}`));
 });
 popupCard.setEventListeners();
 
@@ -163,9 +154,11 @@ popupImage.setEventListeners();
 const popupDeleteCard = new PopupWithConfirm(indexPageConfig.popupDeleteCardSelector, 
   //Handle: Запрос на удаление карточки
   (buttonELement, cardId) => {
-  buttonELement.parentElement.remove();
   api.deleteCard(cardId)
-    //.then((result) => console.log(result))
+    .then(() => {
+      cardList.removeItem(buttonELement.parentElement);//Экзеспляры класса Card скрыты функциональной видемостью, метод не вызвать.
+      popupDeleteCard.close();
+    })
     .catch((error) => alert(`Что-то пошло не так=( ${error}`));
 });
 popupDeleteCard.setEventListeners();

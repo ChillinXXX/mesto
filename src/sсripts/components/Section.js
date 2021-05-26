@@ -19,5 +19,9 @@ export default class Section {
       this._renderer(item, this._placeItem);
     });
   }
+
+  removeItem(element) {
+    element.remove();
+  }
 }
 
