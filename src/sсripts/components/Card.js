@@ -74,14 +74,13 @@ export default class Card {
 
   deleteCard() {
     //this._buttonDeleteCard.parentElement.remove();
-    this._card.remove();
   }
 
   _setEventListeners() {
     this._buttonLikeCard.addEventListener('click', () => this._createLike());
 
     this._buttonDeleteCard.addEventListener('click', (evt) => {
-      this._openDeleteCard(evt, this._cardId)
+      this._openDeleteCard(evt, this._cardId, this._card)
     });
 
     this._previewImageCard.addEventListener('click', this._openPreview);
