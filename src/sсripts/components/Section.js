@@ -1,6 +1,5 @@
 export default class Section {
-  constructor({ items, renderer, place }, {containerSelecor}) {
-    this._rendererItems = items;
+  constructor({ renderer, place }, {containerSelecor}) {
     this._renderer = renderer;
     this._placeItem = place;
     this._conteiner = document.querySelector(containerSelecor);
@@ -14,14 +13,9 @@ export default class Section {
     }
   }
 
-  renderItems() {
-    this._rendererItems.forEach((item) => {
-      this._renderer(item, this._placeItem);
+  rendererItems(arrayElements) {
+    arrayElements.forEach((element) => {
+      this._renderer(element, this._placeItem);
     });
   }
-
-  removeItem(element) {
-    element.remove();
-  }
 }
-

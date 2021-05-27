@@ -31,7 +31,7 @@ import {
 
 //Создание экземпляра класса с запросами к серверу
 const api = new Api({
-  baseUrl: 'https://nomoreparties.co/v1/cohort-24', 
+  baseUrl: 'https://nomoreparties.co/v1/cohort-24',
   token: 'b63830ed-4797-4bf0-871c-c795e3b54411'
 });
 
@@ -46,9 +46,7 @@ Promise.all([
     userInfo.setUserAvatar(results[0]);
     userInfo.setUserId(results[0]);
     //Создаем экз-ры класса Card и отрисовываем элементы
-    results[1].forEach((dataCard) => {
-      rendererCardElement(dataCard, true);
-    })
+    results[1].forEach((dataCard) => rendererCardElement(dataCard, true))
   })
   .catch((error) => alert(`Что-то пошло не так=( ${error}`));
 
@@ -62,8 +60,8 @@ const createCardElement = (dataCard) => {
       popupImage.open({ link: previewImageTarget.src, description: previewImageTarget.alt });
     },
     //Handle: Открыть попапа удаления карточки по клику кнопки
-    (evt, cardId) => {
-      popupDeleteCard.open(evt.target, cardId);
+    () => {
+      popupDeleteCard.open(card);
     },
     //Handle: Поставить лайк
     (cardID) => {
@@ -103,64 +101,64 @@ const validationEditAvatar = new FormValidator(validationConfig, formEditAvatar)
 validationEditAvatar.enableValidation();
 
 //Создание экземпляра класса секции:
-const cardList = new Section({ items: [], renderer: rendererCardElement, place: true }, indexPageConfig);
+const cardList = new Section({renderer: rendererCardElement, place: true }, indexPageConfig);
 
 //Создание экземпляров класса Popup и добавление слушателей:
 const popupInfo = new PopupWithForm(indexPageConfig.popupInfoSelector,
   //Handle: Запрос на изменеие данных пользователя
   ({ name, about }) => {
-  popupInfo.setButtonTextContent(buttonTextContent.loading);
-  api.setUserInfo({ name, about })
-    .then((dataUser) => {
-      userInfo.setUserInfo(dataUser);
-      popupInfo.setButtonTextContent(buttonTextContent.save);
-      popupInfo.close();
-    })
-    .catch((error) => alert(`Что-то пошло не так=( ${error}`));
-});
+    popupInfo.setButtonTextContent(buttonTextContent.loading);
+    api.setUserInfo({ name, about })
+      .then((dataUser) => {
+        userInfo.setUserInfo(dataUser);
+        popupInfo.setButtonTextContent(buttonTextContent.save);
+        popupInfo.close();
+      })
+      .catch((error) => alert(`Что-то пошло не так=( ${error}`));
+  });
 popupInfo.setEventListeners();
 
-const popupAvatar = new PopupWithForm(indexPageConfig.popupAvatarSelector, 
+const popupAvatar = new PopupWithForm(indexPageConfig.popupAvatarSelector,
   //Handle: Запрос на изменение аватара пользователя
   ({ link }) => {
-  popupAvatar.setButtonTextContent(buttonTextContent.loading);
-  api.setUserAvatar({ link })
-    .then((result) => {
-      userInfo.setUserAvatar(result);
-      popupAvatar.setButtonTextContent(buttonTextContent.save);
-      popupAvatar.close();
-    })
-    .catch((error) => alert(`Что-то пошло не так=( ${error}`));
-});
+    popupAvatar.setButtonTextContent(buttonTextContent.loading);
+    api.setUserAvatar({ link })
+      .then((result) => {
+        userInfo.setUserAvatar(result);
+        popupAvatar.setButtonTextContent(buttonTextContent.save);
+        popupAvatar.close();
+      })
+      .catch((error) => alert(`Что-то пошло не так=( ${error}`));
+  });
 popupAvatar.setEventListeners();
 
-const popupCard = new PopupWithForm(indexPageConfig.popupAddCardSelector, 
+const popupCard = new PopupWithForm(indexPageConfig.popupAddCardSelector,
   //Handle: Запрос на добавление новой карточки и ее отрисовка
   ({ name, link }) => {
-  popupCard.setButtonTextContent(buttonTextContent.loading);
-  api.setNewCard({ name, link })
-    .then((dataCard) => {
-      rendererCardElement(dataCard, false);
-      popupCard.setButtonTextContent(buttonTextContent.create);
-      popupCard.close();
-    })
-    .catch((error) => alert(`Что-то пошло не так=( ${error}`));
-});
+    popupCard.setButtonTextContent(buttonTextContent.loading);
+    api.setNewCard({ name, link })
+      .then((dataCard) => {
+        rendererCardElement(dataCard, false);
+        popupCard.setButtonTextContent(buttonTextContent.create);
+        popupCard.close();
+      })
+      .catch((error) => alert(`Что-то пошло не так=( ${error}`));
+  });
 popupCard.setEventListeners();
 
 const popupImage = new PopupWithImage(indexPageConfig.popupPreviewSelector);
 popupImage.setEventListeners();
 
-const popupDeleteCard = new PopupWithConfirm(indexPageConfig.popupDeleteCardSelector, 
+const popupDeleteCard = new PopupWithConfirm(indexPageConfig.popupDeleteCardSelector,
   //Handle: Запрос на удаление карточки
-  (buttonELement, cardId) => {
-  api.deleteCard(cardId)
-    .then(() => {
-      cardList.removeItem(buttonELement.parentElement);//Экзеспляры класса Card скрыты функциональной видемостью, метод не вызвать.
-      popupDeleteCard.close();
-    })
-    .catch((error) => alert(`Что-то пошло не так=( ${error}`));
-});
+  (cardItem) => {
+    api.deleteCard(cardItem._cardId)
+      .then(() => {
+        cardItem.deleteCard();
+        popupDeleteCard.close();
+      })
+      .catch((error) => alert(`Что-то пошло не так=( ${error}`));
+  });
 popupDeleteCard.setEventListeners();
 
 //Создание экземпляров класса UserInfo
