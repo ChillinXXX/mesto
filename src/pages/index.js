@@ -111,10 +111,10 @@ const popupInfo = new PopupWithForm(indexPageConfig.popupInfoSelector,
     api.setUserInfo({ name, about })
       .then((dataUser) => {
         userInfo.setUserInfo(dataUser);
-        popupInfo.setButtonTextContent(buttonTextContent.save);
         popupInfo.close();
       })
-      .catch((error) => alert(`Что-то пошло не так=( ${error}`));
+      .catch((error) => alert(`Что-то пошло не так=( ${error}`))
+      .finally(() => popupInfo.setButtonTextContent(buttonTextContent.save));
   });
 popupInfo.setEventListeners();
 
@@ -125,10 +125,10 @@ const popupAvatar = new PopupWithForm(indexPageConfig.popupAvatarSelector,
     api.setUserAvatar({ link })
       .then((result) => {
         userInfo.setUserAvatar(result);
-        popupAvatar.setButtonTextContent(buttonTextContent.save);
         popupAvatar.close();
       })
-      .catch((error) => alert(`Что-то пошло не так=( ${error}`));
+      .catch((error) => alert(`Что-то пошло не так=( ${error}`))
+      .finally(() => popupAvatar.setButtonTextContent(buttonTextContent.save));
   });
 popupAvatar.setEventListeners();
 
@@ -139,10 +139,10 @@ const popupCard = new PopupWithForm(indexPageConfig.popupAddCardSelector,
     api.setNewCard({ name, link })
       .then((dataCard) => {
         rendererCardElement(dataCard, false);
-        popupCard.setButtonTextContent(buttonTextContent.create);
         popupCard.close();
       })
-      .catch((error) => alert(`Что-то пошло не так=( ${error}`));
+      .catch((error) => alert(`Что-то пошло не так=( ${error}`))
+      .finally(() => popupCard.setButtonTextContent(buttonTextContent.create));
   });
 popupCard.setEventListeners();
 
@@ -188,4 +188,3 @@ buttonOpenAvatar.addEventListener('click', () => {
   deleteErrorMessege(formEditAvatar, validationConfig);
   deactivateButton(buttonSubmitAvatar, validationConfig);
 });
-
