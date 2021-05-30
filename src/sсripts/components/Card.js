@@ -38,11 +38,7 @@ export default class Card {
   }
 
   _checkOwner() {
-    if (this._owner._id === this._userID) {
-      return true
-    } else {
-      return false
-    };
+    return this._owner._id === this._userID ? true : false;
   }
 
   _removeButtonDelete(isMyCard) {

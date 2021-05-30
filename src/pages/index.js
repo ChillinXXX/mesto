@@ -81,6 +81,8 @@ const createCardElement = (dataCard) => {
     },
     userID);
   const cardElement = card.getCard();
+  //console.log(card);
+  //console.log(cardElement);
   return cardElement;
 }
 
